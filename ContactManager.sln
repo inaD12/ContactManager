@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManager.API", "Conta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManager.Domain", "ContactManager.Domain\ContactManager.Domain.csproj", "{6A6CE9A4-7EBD-4B7A-A8B4-36D5D7022F4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManager.Application", "ContactManager.Application\ContactManager.Application.csproj", "{61334B79-3B79-4F10-A663-491E55CD850F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{6A6CE9A4-7EBD-4B7A-A8B4-36D5D7022F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A6CE9A4-7EBD-4B7A-A8B4-36D5D7022F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A6CE9A4-7EBD-4B7A-A8B4-36D5D7022F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61334B79-3B79-4F10-A663-491E55CD850F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61334B79-3B79-4F10-A663-491E55CD850F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61334B79-3B79-4F10-A663-491E55CD850F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61334B79-3B79-4F10-A663-491E55CD850F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
