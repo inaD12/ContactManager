@@ -37,6 +37,7 @@ public class CreateContactCommandValidator : AbstractValidator<CreateContactComm
 			.NotEmpty()
 			.MinimumLength(ContactBusinessConfiguration.IBAN_MIN_LENGTH)
 			.MaximumLength(ContactBusinessConfiguration.IBAN_MAX_LENGTH)
+			.Matches(@"^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$")
 			.WithMessage("IBAN format is invalid.");
 	}
 }

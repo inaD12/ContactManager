@@ -17,6 +17,11 @@ public static class ResponseList
 
     // --Errors--
     
+    // Contact
+    
+    public static Response ContactNotFound =>
+        Response.Create("Contact not found", HttpStatusCode.NotFound);
+    
     // FirstName
     public static Response FirstNameRequired =>
         Response.Create("First name is required", HttpStatusCode.BadRequest);
