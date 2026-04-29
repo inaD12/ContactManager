@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManager", "ContactManager\ContactManager.csproj", "{BD0C813D-E69E-4081-BDB0-BE14EC48D6AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManager.API", "ContactManager.API\ContactManager.API.csproj", "{BD0C813D-E69E-4081-BDB0-BE14EC48D6AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManager.Domain", "ContactManager.Domain\ContactManager.Domain.csproj", "{6A6CE9A4-7EBD-4B7A-A8B4-36D5D7022F4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +14,9 @@ Global
 		{BD0C813D-E69E-4081-BDB0-BE14EC48D6AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD0C813D-E69E-4081-BDB0-BE14EC48D6AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD0C813D-E69E-4081-BDB0-BE14EC48D6AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A6CE9A4-7EBD-4B7A-A8B4-36D5D7022F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A6CE9A4-7EBD-4B7A-A8B4-36D5D7022F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A6CE9A4-7EBD-4B7A-A8B4-36D5D7022F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A6CE9A4-7EBD-4B7A-A8B4-36D5D7022F4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
