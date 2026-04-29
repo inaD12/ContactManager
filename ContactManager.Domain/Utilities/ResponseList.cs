@@ -48,6 +48,9 @@ public static class ResponseList
 
     public static Response PhoneNumberInvalid =>
         Response.Create("Phone number format is invalid", HttpStatusCode.BadRequest);
+    
+    public static Response PhoneNumberAlreadyExists =>
+        Response.Create("This phone number is already in use", HttpStatusCode.Conflict);
 
     // IBAN
     public static Response IBANRequired =>
@@ -55,4 +58,7 @@ public static class ResponseList
 
     public static Response IBANInvalid =>
         Response.Create("IBAN format is invalid", HttpStatusCode.BadRequest);
+    
+    public static Response IBANAlreadyExists =>
+        Response.Create("This IBAN is already in use", HttpStatusCode.Conflict);
 }

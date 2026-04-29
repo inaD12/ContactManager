@@ -1,4 +1,5 @@
-﻿using ContactManager.Application.Features.PipelineBehaviors;
+﻿using ContactManager.Application.Features.Commands.CreateContact;
+using ContactManager.Application.Features.PipelineBehaviors;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,17 +11,19 @@ public static class ServiceCollectionExtensions
 	{
 		var currentAssembly = typeof(ServiceCollectionExtensions).Assembly;
 
-		services.AddMediatR(
-			cf =>
-			{
-				cf.RegisterServicesFromAssembly(currentAssembly);
-
-				cf.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
-			});
+		services
+			.AddScoped<ContactFactory>();
 		
 		services
-			.AddValidatorsFromAssembly(currentAssembly);
+			.AddValidatorsFromAssembly(currentAssembly)
+			.AddMediatR(
+				cf =>
+				{
+					cf.RegisterServicesFromAssembly(currentAssembly);
 
+					cf.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
+				});
+		
 		return services;
 	}
 }
