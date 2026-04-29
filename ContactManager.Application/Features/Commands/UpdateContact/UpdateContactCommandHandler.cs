@@ -13,7 +13,7 @@ public sealed class UpdateContactCommandHandler(
 {
     public async Task<Result> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
     {
-        var contact = await contactRepository.GetByIdAsync(request.Id, cancellationToken);
+        var contact = await contactRepository.GetByIdAsync(request.ContactId, cancellationToken);
 
         if (contact is null)
             return Result.Failure(ResponseList.ContactNotFound);

@@ -11,6 +11,11 @@ public class UpdateContactCommandValidator : AbstractValidator<UpdateContactComm
 			.Must(HasAtLeastOneField)
 			.WithMessage("At least one field must be changed.");
 
+		RuleFor(x => x.ContactId)
+			.NotEmpty()
+			.Must(BeAValidGuid)
+			.WithMessage("ContactId must be a valid GUID.");
+		
 		RuleFor(x => x.NewAddress)
 			.MinimumLength(ContactBusinessConfiguration.ADDRESS_MIN_LENGTH)
 			.MaximumLength(ContactBusinessConfiguration.ADDRESS_MAX_LENGTH)
@@ -39,5 +44,10 @@ public class UpdateContactCommandValidator : AbstractValidator<UpdateContactComm
 		return HasValue(x.NewAddress)
 		       || HasValue(x.NewPhoneNumber)
 		       || HasValue(x.NewIBAN);
+	}
+	
+	private bool BeAValidGuid(string contactId)
+	{
+		return Guid.TryParse(contactId, out _);
 	}
 }
