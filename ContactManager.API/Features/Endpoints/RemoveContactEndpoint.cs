@@ -1,32 +1,29 @@
+using ContactManager.Application.Features.Commands.RemoveContact;
 using ContactManager.Features.Abstractions;
 using ContactManager.Features.Helpers;
-using ContactManager.Features.Mappers;
-using ContactManager.Features.Models.Requests;
-using ContactManager.Features.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContactManager.Features.Endpoints;
 
-internal class CreateContactEndpoint : IEndPoints
+internal class RemoveContactEndpoint : IEndPoints
 {
     public void RegisterEndpoints(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/contacts", CreateContactAsync)
-            .Produces<ContactCommandResponse>(StatusCodes.Status201Created)
-            .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status409Conflict)
+        app.MapPost("/api/contacts/{id}", RemoveContactAsync)
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
             .AllowAnonymous();
     }
 	    
-    private async Task<IResult> CreateContactAsync(
-        [FromBody] CreateContactRequest request,
+    private async Task<IResult> RemoveContactAsync(
+        [FromRoute] string id,
         [FromServices] ISender sender,
         HttpContext httpContext,
         CancellationToken cancellationToken)
     {
-        var command = request.ToCommand();
+        var command = new RemoveContactCommand(id);
         var res = await sender.Send(command, cancellationToken);
         return ControllerResponse.ParseAndReturnMessage(res);
     }

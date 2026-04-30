@@ -19,6 +19,6 @@ public sealed class RemoveContactCommandHandler(
         contactRepository.Delete(contact);
         
         await unitOfWork.SaveChangesAsync(cancellationToken);
-        return Result.Success();
+        return Result.Success(ResponseList.ContactDeleted);
     }
 }
