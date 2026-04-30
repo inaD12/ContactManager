@@ -22,7 +22,6 @@ internal class UpdateContactEndpoint : IEndPoints
         [FromRoute] string id,
         [FromBody] UpdateContactRequest request,
         [FromServices] ISender sender,
-        HttpContext httpContext,
         CancellationToken cancellationToken)
     {
         var command = request.ToCommand(id);

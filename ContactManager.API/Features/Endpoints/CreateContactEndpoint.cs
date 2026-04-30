@@ -23,7 +23,6 @@ internal class CreateContactEndpoint : IEndPoints
     private async Task<IResult> CreateContactAsync(
         [FromBody] CreateContactRequest request,
         [FromServices] ISender sender,
-        HttpContext httpContext,
         CancellationToken cancellationToken)
     {
         var command = request.ToCommand();

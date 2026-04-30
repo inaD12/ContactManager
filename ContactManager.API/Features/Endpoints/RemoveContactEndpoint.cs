@@ -20,7 +20,6 @@ internal class RemoveContactEndpoint : IEndPoints
     private async Task<IResult> RemoveContactAsync(
         [FromRoute] string id,
         [FromServices] ISender sender,
-        HttpContext httpContext,
         CancellationToken cancellationToken)
     {
         var command = new RemoveContactCommand(id);
