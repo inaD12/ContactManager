@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using ContactManager.Domain.Results;
 using ContactManager.Domain.Utilities;
 
@@ -5,6 +6,9 @@ namespace ContactManager.Domain.ValueObjects;
 
 public sealed record IBAN
 {
+    private static readonly Regex IbanRegex =
+        new(@"^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$", RegexOptions.Compiled);
+
     public string Value { get; }
 
     private IBAN(string value)
@@ -19,7 +23,7 @@ public sealed record IBAN
 
         value = value.Replace(" ", "").ToUpperInvariant();
 
-        if (value.Length < 15 || value.Length > 34)
+        if (!IbanRegex.IsMatch(value))
             return Result<IBAN>.Failure(ResponseList.IBANInvalid);
 
         return Result<IBAN>.Success(new IBAN(value));

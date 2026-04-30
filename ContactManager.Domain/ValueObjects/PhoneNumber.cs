@@ -7,6 +7,9 @@ namespace ContactManager.Domain.ValueObjects;
 
 public sealed record PhoneNumber
 {
+    private static readonly Regex PhoneRegex =
+        new(@"^\+?[0-9]{7,15}$", RegexOptions.Compiled);
+
     public string Value { get; }
 
     private PhoneNumber(string value)
@@ -19,7 +22,9 @@ public sealed record PhoneNumber
         if (string.IsNullOrWhiteSpace(value))
             return Result<PhoneNumber>.Failure(ResponseList.PhoneNumberRequired);
 
-        if (!Regex.IsMatch(value, @"^\+?[0-9]{7,15}$"))
+        value = value.Replace(" ", "");
+
+        if (!PhoneRegex.IsMatch(value))
             return Result<PhoneNumber>.Failure(ResponseList.PhoneNumberInvalid);
 
         return Result<PhoneNumber>.Success(new PhoneNumber(value));

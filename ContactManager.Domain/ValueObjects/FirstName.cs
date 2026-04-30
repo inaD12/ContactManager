@@ -17,7 +17,7 @@ public sealed record FirstName
         if (string.IsNullOrWhiteSpace(value))
             return Result<FirstName>.Failure(ResponseList.FirstNameRequired);
 
-        if (value.Length > 100)
+        if (value.Length > 50)
             return Result<FirstName>.Failure(ResponseList.FirstNameTooLong);
 
         return Result<FirstName>.Success(new FirstName(value.Trim()));

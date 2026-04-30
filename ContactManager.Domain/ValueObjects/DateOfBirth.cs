@@ -5,19 +5,19 @@ namespace ContactManager.Domain.ValueObjects;
 
 public sealed record DateOfBirth
 {
-    public DateTime Value { get; }
+    public DateOnly Value { get; }
 
-    private DateOfBirth(DateTime value)
+    private DateOfBirth(DateOnly value)
     {
-        Value = value.Date;
+        Value = value;
     }
 
-    public static Result<DateOfBirth> Create(DateTime value)
+    public static Result<DateOfBirth> Create(DateOnly value)
     {
-        if (value > DateTime.UtcNow)
+        if (value > DateOnly.FromDateTime(DateTime.UtcNow))
             return Result<DateOfBirth>.Failure(ResponseList.DateOfBirthInFuture);
 
-        if (value < DateTime.UtcNow.AddYears(-120))
+        if (value < DateOnly.FromDateTime(DateTime.UtcNow.AddYears(-120)))
             return Result<DateOfBirth>.Failure(ResponseList.DateOfBirthTooOld);
 
         return Result<DateOfBirth>.Success(new DateOfBirth(value));
