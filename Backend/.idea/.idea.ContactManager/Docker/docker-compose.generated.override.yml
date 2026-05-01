@@ -1,0 +1,20 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  contacts.api:
+    build:
+      context: "/home/inad/Desktop/Projects/ContactManager"
+      dockerfile: "Backend/ContactManager.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/ContactManager.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "contactsapi:dev"
+    ports: []
+    volumes:
+    - "/home/inad/Desktop/Projects/ContactManager/Backend/ContactManager.API:/app:rw"
+    - "/home/inad/Desktop/Projects/ContactManager/Backend:/src:rw"
+    - "/home/inad/.nuget/packages:/root/.nuget/packages"
+    working_dir: "/app"

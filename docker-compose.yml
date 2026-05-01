@@ -3,7 +3,7 @@ services:
     image: ${DOCKER_REGISTRY-}contactsapi
     build:
       context: .
-      dockerfile: ContactManager.API/Dockerfile
+      dockerfile: Backend/ContactManager.API/Dockerfile
     depends_on:
       contacts.database:
         condition: service_healthy
@@ -13,6 +13,18 @@ services:
       - my_network
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+
+  contacts.frontend:
+    container_name: contacts.frontend
+    build:
+      context: .
+      dockerfile: Frontend/Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - contacts.api
+    networks:
+      - my_network
 
   contacts.database:
     image: postgres:latest
