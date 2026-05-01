@@ -1,0 +1,49 @@
+<div class="min-h-screen flex items-center justify-center bg-white p-4">
+
+  <p-card header="Create Contact" class="w-full max-w-md">
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="p-fluid space-y-4">
+
+      <div class="field">
+        <label class="block mb-1">First Name</label>
+        <input pInputText formControlName="firstName" class="w-full" />
+      </div>
+
+      <div class="field">
+        <label class="block mb-1">Surname</label>
+        <input pInputText formControlName="surname" class="w-full" />
+      </div>
+
+      <div class="field">
+        <label class="block mb-1">Date of Birth</label>
+        <p-datepicker formControlName="dateOfBirth" class="w-full"></p-datepicker>
+      </div>
+
+      <div class="field">
+        <label class="block mb-1">Address</label>
+        <input pInputText formControlName="address" class="w-full" />
+      </div>
+
+      <div class="field">
+        <label class="block mb-1">Phone Number</label>
+        <input pInputText formControlName="phoneNumber" class="w-full" />
+      </div>
+
+      <div class="field">
+        <label class="block mb-1">IBAN</label>
+        <input pInputText formControlName="iban" class="w-full" />
+      </div>
+
+      <button
+        pButton
+        type="submit"
+        label="Create Contact"
+        icon="pi pi-check"
+        class="w-full"
+      ></button>
+
+    </form>
+
+  </p-card>
+
+</div>

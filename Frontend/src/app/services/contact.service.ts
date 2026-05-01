@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { Contact } from '../models/contact.model';
 import { ENDPOINTS } from '../config/endpoints';
+import { CreateContact } from '../models/createContract.model';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class ContactService {
     return this.http.get<Contact>(ENDPOINTS.contacts.byId(id));
   }
 
-  create(contact: Contact) {
+  create(contact: CreateContact) {
     return this.http.post(ENDPOINTS.contacts.root, contact);
   }
 
