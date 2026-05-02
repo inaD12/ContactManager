@@ -6,7 +6,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { CardModule } from 'primeng/card';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CreateContact } from '../../models/create-contract-request.model';
+import { CreateContactRequest } from '../../models/create-contract-request.model';
 
 @Component({
   selector: 'app-contact-create',
@@ -46,7 +46,7 @@ export class ContactCreate implements OnInit {
 
     const raw = this.form.value;
 
-    const payload: CreateContact = {
+    const payload: CreateContactRequest = {
       firstName: raw.firstName,
       surname: raw.surname,
       dateOfBirth: this.toDateOnlyString(raw.dateOfBirth),

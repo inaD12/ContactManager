@@ -11,5 +11,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./contacts/contact-create/contact-create')
         .then(m => m.ContactCreate)
+  },
+  {
+    path: 'list',
+    loadComponent: () =>
+      import('./contacts/contact-list/contact-list')
+        .then(m => m.ContactList)
   }
 ];
