@@ -1,4 +1,5 @@
-﻿using ContactManager.Application.Features.Mappers;
+﻿using ContactManager.Application.Features.Abstractions;
+using ContactManager.Application.Features.Mappers;
 using ContactManager.Application.Features.Models;
 using ContactManager.Domain.Abstractions;
 using ContactManager.Domain.Abstractions.Messaging;

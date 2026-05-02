@@ -1,3 +1,4 @@
+using ContactManager.Application.Features.Abstractions;
 using ContactManager.Domain.Abstractions;
 using ContactManager.Domain.Entities;
 using ContactManager.Domain.Results;
