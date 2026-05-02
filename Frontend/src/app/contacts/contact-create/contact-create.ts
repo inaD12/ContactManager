@@ -6,7 +6,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { CardModule } from 'primeng/card';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CreateContact } from '../../models/createContract.model';
+import { CreateContact } from '../../models/create-contract-request.model';
 
 @Component({
   selector: 'app-contact-create',

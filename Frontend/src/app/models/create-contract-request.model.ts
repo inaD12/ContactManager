@@ -1,4 +1,4 @@
-export type CreateContact = {
+export type CreateContactRequest = {
   firstName: string;
   surname: string;
   dateOfBirth: string;
