@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace ContactManager.Application.Features.Models;
+namespace ContactManager.Application.Features.Sorting;
 
 public class PagedList<T>
 {
