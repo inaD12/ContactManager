@@ -1,5 +1,6 @@
 using ContactManager.Application.Features.Abstractions;
 using ContactManager.Application.Features.Models;
+using ContactManager.Application.Features.Sorting;
 using ContactManager.Domain.Entities;
 using ContactManager.Infrastructure.Extensions;
 using ContactManager.Infrastructure.Features.DBContexts;
@@ -65,14 +66,8 @@ public class ContactRepository(ContactsDbContext context)
                  EF.Functions.ILike(r.PhoneNumber.Value, $"%{query.PhoneNumber}%"))
             );
 
-        if (string.IsNullOrEmpty(query.SortPropertyName))
-        {
-            entitiesQuery = entitiesQuery.OrderByDescending(r => r.FirstName.Value);
-        }
-        else
-        {
-            entitiesQuery = entitiesQuery.ApplySorting(query.SortPropertyName, query.SortOrder);
-        }
+
+        entitiesQuery = entitiesQuery.ApplySorting(query.SortBy, query.SortOrder);
 
         return await PagedList<Contact>.CreateAsync(
             entitiesQuery,

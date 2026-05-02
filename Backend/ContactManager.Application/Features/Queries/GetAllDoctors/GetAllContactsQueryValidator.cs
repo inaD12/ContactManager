@@ -38,17 +38,7 @@ public class GetAllContactsQueryValidator : AbstractValidator<GetAllContactsQuer
 			.InclusiveBetween(1, 100)
 			.WithMessage("PageSize must be between 1 and 100");
 
-		RuleFor(q => q.SortPropertyName)
-			.NotEmpty()
-			.WithMessage("SortPropertyName is required")
-			.Must(BeAValidSortProperty)
-			.WithMessage("SortPropertyName must be a valid Contact property");
-	}
-
-	private bool BeAValidSortProperty(string propertyName)
-	{
-		return typeof(Contact)
-			.GetProperties()
-			.Any(p => p.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
+		RuleFor(q => q.SortBy)
+			.IsInEnum();
 	}
 }

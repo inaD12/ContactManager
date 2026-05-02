@@ -1,4 +1,5 @@
 ﻿using ContactManager.Application.Features.Models;
+using ContactManager.Application.Features.Sorting;
 using ContactManager.Domain.Abstractions.Messaging;
 using ContactManager.Domain.Enums;
 
@@ -14,4 +15,4 @@ public sealed record GetAllContactsQuery(
 	SortOrder SortOrder,
 	int Page,
 	int PageSize,
-	string SortPropertyName) : IQuery<ContactPaginatedQueryViewModel>;
+	ContactSortField SortBy) : IQuery<ContactPaginatedQueryViewModel>;

@@ -1,5 +1,6 @@
 using ContactManager.Application.Features.Models;
 using ContactManager.Application.Features.Queries.GetAllDoctors;
+using ContactManager.Application.Features.Sorting;
 using ContactManager.Domain.Entities;
 
 namespace ContactManager.Application.Features.Mappers;
@@ -27,7 +28,7 @@ public static class QueryMapper
             query.Address,
             query.PhoneNumber,
             query.SortOrder,
-            query.SortPropertyName,
+            query.SortBy,
             query.Page,
             query.PageSize);
     

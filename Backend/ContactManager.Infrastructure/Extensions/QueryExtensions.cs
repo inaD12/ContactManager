@@ -1,22 +1,49 @@
-using System.Linq.Expressions;
+using ContactManager.Application.Features.Sorting;
+using ContactManager.Domain.Entities;
 using ContactManager.Domain.Enums;
 
 namespace ContactManager.Infrastructure.Extensions;
 
 public static class QueryExtensions
 {
-    public static IOrderedQueryable<T> ApplySorting<T>(this IQueryable<T> query, string propertyName, SortOrder sortOrder)
+    public static IQueryable<Contact> ApplySorting(
+        this IQueryable<Contact> query,
+        ContactSortField sortBy,
+        SortOrder sortOrder)
     {
-        var entityType = typeof(T);
-        var orderByProperty = typeof(T).GetProperty(propertyName);
+        return sortBy switch
+        {
+            ContactSortField.Id  =>
+                sortOrder == SortOrder.ASC
+                    ? query.OrderBy(x => x.Id)
+                    : query.OrderByDescending(x => x.Id),
+            
+            ContactSortField.FirstName =>
+                sortOrder == SortOrder.ASC
+                    ? query.OrderBy(x => x.FirstName.Value)
+                    : query.OrderByDescending(x => x.FirstName.Value),
 
-        var parameter = Expression.Parameter(entityType, "x");
-        var propertyAccess = Expression.Property(parameter, orderByProperty!);
-        var orderByExpression = Expression.Lambda<Func<T, object>>(Expression.Convert(propertyAccess, typeof(object)), parameter);
+            ContactSortField.Surname =>
+                sortOrder == SortOrder.ASC
+                    ? query.OrderBy(x => x.Surname.Value)
+                    : query.OrderByDescending(x => x.Surname.Value),
 
-        if (sortOrder == SortOrder.DESC)
-            return query.OrderByDescending(orderByExpression);
+            ContactSortField.DateOfBirth =>
+                sortOrder == SortOrder.ASC
+                    ? query.OrderBy(x => x.DateOfBirth.Value)
+                    : query.OrderByDescending(x => x.DateOfBirth.Value),
 
-        return query.OrderBy(orderByExpression);
+            ContactSortField.Address =>
+                sortOrder == SortOrder.ASC
+                    ? query.OrderBy(x => x.Address.Value)
+                    : query.OrderByDescending(x => x.Address.Value),
+            
+            ContactSortField.PhoneNumber =>
+                sortOrder == SortOrder.ASC
+                    ? query.OrderBy(x => x.PhoneNumber.Value)
+                    : query.OrderByDescending(x => x.PhoneNumber.Value),
+            
+            _ => throw new ArgumentOutOfRangeException(nameof(sortBy), sortBy, null)
+        };
     }
 }	

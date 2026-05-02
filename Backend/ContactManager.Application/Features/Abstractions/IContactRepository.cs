@@ -1,4 +1,5 @@
 using ContactManager.Application.Features.Models;
+using ContactManager.Application.Features.Sorting;
 using ContactManager.Domain.Entities;
 
 namespace ContactManager.Application.Features.Abstractions;
