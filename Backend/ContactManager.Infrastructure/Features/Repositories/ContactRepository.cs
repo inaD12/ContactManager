@@ -1,5 +1,7 @@
-using ContactManager.Domain.Abstractions;
+using ContactManager.Application.Features.Abstractions;
+using ContactManager.Application.Features.Models;
 using ContactManager.Domain.Entities;
+using ContactManager.Infrastructure.Extensions;
 using ContactManager.Infrastructure.Features.DBContexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,5 +38,47 @@ public class ContactRepository(ContactsDbContext context)
     {
         return await context.Contacts
             .AnyAsync(x => x.IBAN.Value == iban, cancellationToken);
+    }
+
+    public async Task<PagedList<Contact>> GetAllAsync(
+        ContactFilter query,
+        CancellationToken cancellationToken = default)
+    {
+        var entitiesQuery = context.Contacts
+            .Where(r =>
+                (string.IsNullOrEmpty(query.FirstName) ||
+                 EF.Functions.ILike(r.FirstName.Value, $"%{query.FirstName}%")) &&
+
+                (string.IsNullOrEmpty(query.Surname) ||
+                 EF.Functions.ILike(r.Surname.Value, $"%{query.Surname}%")) &&
+
+                (!query.MinDateOfBirth.HasValue ||
+                 r.DateOfBirth.Value >= query.MinDateOfBirth.Value) &&
+
+                (!query.MaxDateOfBirth.HasValue ||
+                 r.DateOfBirth.Value <= query.MaxDateOfBirth.Value) &&
+
+                (string.IsNullOrEmpty(query.Address) ||
+                 EF.Functions.ILike(r.Address.Value, $"%{query.Address}%")) &&
+
+                (string.IsNullOrEmpty(query.PhoneNumber) ||
+                 EF.Functions.ILike(r.PhoneNumber.Value, $"%{query.PhoneNumber}%"))
+            );
+
+        if (string.IsNullOrEmpty(query.SortPropertyName))
+        {
+            entitiesQuery = entitiesQuery.OrderByDescending(r => r.FirstName.Value);
+        }
+        else
+        {
+            entitiesQuery = entitiesQuery.ApplySorting(query.SortPropertyName, query.SortOrder);
+        }
+
+        return await PagedList<Contact>.CreateAsync(
+            entitiesQuery,
+            query.Page,
+            query.PageSize,
+            cancellationToken
+        );
     }
 }

@@ -1,6 +1,7 @@
+using ContactManager.Application.Features.Models;
 using ContactManager.Domain.Entities;
 
-namespace ContactManager.Domain.Abstractions;
+namespace ContactManager.Application.Features.Abstractions;
 
 public interface IContactRepository
 {
@@ -9,4 +10,5 @@ public interface IContactRepository
     void Delete(Contact contact);
     Task<bool> ExistsByPhoneAsync(string phone, CancellationToken cancellationToken = default);
     Task<bool> ExistsByIBANAsync(string iban, CancellationToken cancellationToken = default);
+    Task<PagedList<Contact>> GetAllAsync(ContactFilter query, CancellationToken cancellationToken = default);
 }
