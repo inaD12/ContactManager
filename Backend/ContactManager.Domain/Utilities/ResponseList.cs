@@ -22,6 +22,9 @@ public static class ResponseList
     public static Response ContactNotFound =>
         Response.Create("Contact not found", HttpStatusCode.NotFound);
     
+    public static Response ContactsNotFound =>
+        Response.Create("Contacts not found", HttpStatusCode.NotFound);
+    
     // FirstName
     public static Response FirstNameRequired =>
         Response.Create("First name is required", HttpStatusCode.BadRequest);
