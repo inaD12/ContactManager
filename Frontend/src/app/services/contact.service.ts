@@ -1,7 +1,7 @@
 import { Contact } from '../models/contact.model';
 import { ENDPOINTS } from '../config/endpoints';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { APIResponse } from '../models/api-response.model';
 import { PaginatedResponse } from '../models/paginated-response.model';
 import { ContactCommandResponse } from '../models/contact-command-response.model';
@@ -20,7 +20,7 @@ export class ContactService {
     return this.http.get<APIResponse<PaginatedResponse<Contact>>>(
       ENDPOINTS.contacts.root,
       {
-        params: { ...request }
+        params: this.buildParams(request)
       }
     );
   }
@@ -49,5 +49,46 @@ export class ContactService {
     return this.http.delete<APIResponse<null>>(
       ENDPOINTS.contacts.byId(id)
     );
+  }
+
+  private buildParams(req: GetAllContactsRequest): HttpParams {
+    let params = new HttpParams();
+
+    params = params.set('page', req.page?.toString() ?? '1');
+    params = params.set('pageSize', req.pageSize?.toString() ?? '10');
+
+    if (req.firstName?.trim()) {
+      params = params.set('firstName', req.firstName);
+    }
+
+    if (req.surname?.trim()) {
+      params = params.set('surname', req.surname);
+    }
+
+    if (req.address?.trim()) {
+      params = params.set('address', req.address);
+    }
+
+    if (req.phoneNumber?.trim()) {
+      params = params.set('phoneNumber', req.phoneNumber);
+    }
+
+    if (req.minDateOfBirth) {
+      params = params.set('minDateOfBirth', req.minDateOfBirth);
+    }
+
+    if (req.maxDateOfBirth) {
+      params = params.set('maxDateOfBirth', req.maxDateOfBirth);
+    }
+
+    if (req.sortBy) {
+      params = params.set('sortBy', req.sortBy);
+    }
+
+    if (req.sortOrder !== undefined && req.sortOrder !== null) {
+      params = params.set('sortOrder', req.sortOrder.toString());
+    }
+
+    return params;
   }
 }

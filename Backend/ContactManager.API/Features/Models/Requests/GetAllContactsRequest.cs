@@ -8,7 +8,7 @@ public record GetAllContactsRequest(
 	string Surname = "",
 	DateOnly? MinDateOfBirth = null,
 	DateOnly? MaxDateOfBirth = null,
-	string Adress = "",
+	string Address = "",
 	string PhoneNumber = "",
 	SortOrder SortOrder = SortOrder.ASC,
 	ContactSortField SortBy = ContactSortField.Id,
