@@ -17,5 +17,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./contacts/contact-list/contact-list')
         .then(m => m.ContactList)
+  },
+  {
+    path: 'contacts/:id',
+    loadComponent: () =>
+      import('./contacts/contact-view/contact-view')
+        .then(m => m.ContactView)
   }
 ];

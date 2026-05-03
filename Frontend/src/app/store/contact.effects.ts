@@ -47,4 +47,22 @@ export class ContactEffects {
       )
     )
   );
+
+  loadContactById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContactActions.loadContactById),
+      switchMap(({ id }) =>
+        this.contactService.getById(id).pipe(
+          map(res =>
+            ContactActions.loadContactByIdSuccess({
+              contact: res.data
+            })
+          ),
+          catchError(error =>
+            of(ContactActions.loadContactByIdFailure({ error }))
+          )
+        )
+      )
+    )
+  );
 }

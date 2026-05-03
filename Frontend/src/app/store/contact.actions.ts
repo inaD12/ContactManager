@@ -31,3 +31,24 @@ export const createContactFailure = createAction(
   '[Contact] Create Failure',
   props<{ error: any }>()
 );
+
+
+export const loadContactById = createAction(
+  '[Contact] Load By Id',
+  props<{ id: string }>()
+);
+
+export const loadContactByIdSuccess = createAction(
+  '[Contact] Load By Id Success',
+  props<{ contact: Contact }>()
+);
+
+export const loadContactByIdFailure = createAction(
+  '[Contact] Load By Id Failure',
+  props<{ error: string }>()
+);
+
+export const setSelectedContact = createAction(
+  '[Contact] Set Selected',
+  props<{ contact: Contact }>()
+);

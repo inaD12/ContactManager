@@ -6,6 +6,7 @@ export type ContactState = {
   loading: boolean;
   createSuccess: boolean;
   createError: string | null;
+  selectedContact: Contact | null;
 };
 
 export const initialState: ContactState = {
@@ -13,5 +14,6 @@ export const initialState: ContactState = {
   totalRecords: 0,
   loading: false,
   createSuccess: false,
-  createError: null
+  createError: null,
+  selectedContact: null
 };

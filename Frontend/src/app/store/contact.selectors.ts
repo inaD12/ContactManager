@@ -28,3 +28,14 @@ export const selectCreateError = createSelector(
   selectContactsState,
   state => state.createError
 );
+
+export const selectSelectedContact = createSelector(
+  selectContactsState,
+  state => state.selectedContact
+);
+
+export const selectContactByIdFromList = (id: string) =>
+  createSelector(
+    selectAllContacts,
+    (contacts) => contacts.find(c => c.id === id)
+  );

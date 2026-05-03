@@ -47,6 +47,28 @@ export const contactReducer = createReducer(
     loading: false,
     createSuccess: false,
     createError: error
-  }))
+  })),
 
+
+  on(ContactActions.loadContactById, (state) => ({
+    ...state,
+    loading: true,
+    selectedContact: null
+  })),
+
+  on(ContactActions.loadContactByIdSuccess, (state, { contact }) => ({
+    ...state,
+    loading: false,
+    selectedContact: contact
+  })),
+
+  on(ContactActions.loadContactByIdFailure, (state) => ({
+    ...state,
+    loading: false
+  })),
+
+  on(ContactActions.setSelectedContact, (state, { contact }) => ({
+    ...state,
+    selectedContact: contact
+  }))
 );

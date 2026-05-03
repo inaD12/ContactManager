@@ -1,0 +1,80 @@
+<div class="min-h-screen surface-ground flex flex-column align-items-center">
+
+  <div class="w-full px-6 py-6 flex justify-content-center" style="max-width: 1200px; margin: 0 auto;">
+
+    @if (loading()) {
+      <p-card class="surface-card border surface-border border-round-2xl shadow-2 w-full">
+        <ng-template pTemplate="content">
+          <div class="space-y-4">
+            <p-skeleton height="2.5rem" width="70%"></p-skeleton>
+            <p-skeleton height="1.5rem" width="90%"></p-skeleton>
+            <p-skeleton height="1.5rem" width="85%"></p-skeleton>
+          </div>
+        </ng-template>
+      </p-card>
+    }
+
+    @if (!loading() && contact()) {
+
+      <p-card class="surface-card border surface-border border-round-2xl shadow-2 w-full">
+
+        <ng-template pTemplate="title">
+          <div class="pb-4 border-bottom-1 surface-border text-center">
+            <h1 class="text-3xl font-semibold text-color">
+              {{ contact()?.firstName }} {{ contact()?.surname }}
+            </h1>
+
+            <p class="text-sm text-color-secondary mt-1">
+              Contact Information
+            </p>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="content">
+          <div class="flex justify-content-center pt-4 text-color">
+
+            <div class="w-full">
+
+              <div class="space-y-6">
+
+                <div class="text-center">
+                  <p class="text-sm text-color-secondary mb-1">Date of Birth</p>
+                  <p class="text-base font-medium">
+                    {{ contact()?.dateOfBirth | date: 'fullDate' }}
+                  </p>
+                </div>
+
+                <div class="text-center">
+                  <p class="text-sm text-color-secondary mb-1">Phone Number</p>
+                  <p class="text-base font-medium">
+                    {{ contact()?.phoneNumber }}
+                  </p>
+                </div>
+
+                <div class="text-center">
+                  <p class="text-sm text-color-secondary mb-1">Address</p>
+                  <p class="text-base">
+                    {{ contact()?.address }}
+                  </p>
+                </div>
+
+                <div class="text-center">
+                  <p class="text-sm text-color-secondary mb-1">IBAN</p>
+                  <p class="font-mono text-sm surface-100 p-3 border surface-border border-round break-all inline-block">
+                    {{ contact()?.iban }}
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </ng-template>
+
+      </p-card>
+
+    }
+
+  </div>
+</div>
