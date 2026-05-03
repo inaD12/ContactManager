@@ -70,5 +70,43 @@ export const contactReducer = createReducer(
   on(ContactActions.setSelectedContact, (state, { contact }) => ({
     ...state,
     selectedContact: contact
+  })),
+
+  on(ContactActions.updateContactSuccess, (state, { id, request }) => ({
+
+    ...state,
+
+    contacts: state.contacts.map(c =>
+        c.id === id
+        ? {
+            ...c,
+            address: request.newAddress ?? c.address,
+            phoneNumber: request.newPhoneNumber ?? c.phoneNumber,
+            iban: request.newIBAN ?? c.iban
+            }
+        : c
+    ),
+
+    selectedContact:
+        state.selectedContact?.id === id
+        ? {
+            ...state.selectedContact,
+            address: request.newAddress ?? state.selectedContact.address,
+            phoneNumber: request.newPhoneNumber ?? state.selectedContact.phoneNumber,
+            iban: request.newIBAN ?? state.selectedContact.iban
+            }
+        : state.selectedContact,
+
+    loading: false
+  })),
+
+  on(ContactActions.updateContact, state => ({
+      ...state,
+      loading: true
+  })),
+
+  on(ContactActions.updateContactFailure, state => ({
+      ...state,
+      loading: false
   }))
 );

@@ -23,5 +23,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./contacts/contact-view/contact-view')
         .then(m => m.ContactView)
+  },
+  {
+    path: 'contacts/:id/edit',
+    loadComponent: () =>
+      import('./contacts/contact-edit/contact-edit')
+        .then(m => m.ContactEdit)
   }
 ];

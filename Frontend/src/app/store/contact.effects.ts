@@ -65,4 +65,20 @@ export class ContactEffects {
       )
     )
   );
+
+  updateContact$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContactActions.updateContact),
+      switchMap(({ id, request }) =>
+        this.contactService.update(id, request).pipe(
+          map(() =>
+            ContactActions.updateContactSuccess({ id, request })
+          ),
+          catchError(error =>
+            of(ContactActions.updateContactFailure({ error }))
+          )
+        )
+      )
+    )
+  );
 }
