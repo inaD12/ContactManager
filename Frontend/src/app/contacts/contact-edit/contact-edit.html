@@ -1,27 +1,19 @@
-<div class="min-h-screen flex items-center justify-center bg-surface-50 p-4">
-
-  <p-card class="w-full max-w-3xl shadow-3 border-round-2xl overflow-hidden">
+<div class="min-h-screen flex align-items-center justify-content-center surface-ground p-4">
+  <p-card class="w-full max-w-3xl shadow-4 border-round-2xl overflow-hidden">
 
     <ng-template pTemplate="header">
-      <div class="p-5 bg-white border-bottom-1 surface-border">
-
-        <div class="flex align-items-center justify-content-between">
-
-          <div>
-            <div class="text-2xl font-semibold text-color">
-              Edit Contact
-            </div>
-            <div class="text-sm text-muted-color mt-1">
-              Update contact information and save changes
-            </div>
-          </div>
-
-          <div class="bg-primary-50 text-primary-600 p-3 border-round-xl">
-            <i class="pi pi-user-edit text-xl"></i>
-          </div>
-
+      <div class="px-5 py-4 flex align-items-center gap-3"
+           style="background: linear-gradient(135deg, var(--primary-600), var(--primary-400))">
+        <div class="flex align-items-center justify-content-center border-round-xl p-3"
+             style="background: rgba(255,255,255,0.15); backdrop-filter: blur(8px)">
+          <i class="pi pi-user-edit text-xl text-white"></i>
         </div>
-
+        <div>
+          <div class="text-xl font-bold text-white">Edit Contact</div>
+          <div class="text-sm mt-1" style="color: rgba(255,255,255,0.75)">
+            Update contact information and save changes
+          </div>
+        </div>
       </div>
     </ng-template>
 
@@ -35,87 +27,83 @@
     }
 
     @if (!loading()) {
+      <form [formGroup]="form" (ngSubmit)="submit()" class="p-5 flex flex-column gap-4">
 
-      <form [formGroup]="form"
-            (ngSubmit)="submit()"
-            class="p-5 flex flex-column gap-5">
-
-        <div class="surface-100 p-4 border-round-xl">
-
-          <div class="text-sm font-semibold text-muted-color mb-3">
-            Personal Information
+        <!-- PERSONAL -->
+        <div class="flex flex-column gap-3">
+          <div class="flex align-items-center gap-2">
+            <div class="flex align-items-center justify-content-center border-round-lg"
+                 style="width:28px;height:28px;background:var(--primary-50)">
+              <i class="pi pi-id-card text-sm" style="color:var(--primary-500)"></i>
+            </div>
+            <span class="text-sm font-semibold text-color-secondary uppercase"
+                  style="letter-spacing: 0.06em">Personal Information</span>
           </div>
 
-          <div class="grid formgrid">
-
-            <div class="col-12 md:col-6 mb-3">
-              <label class="block mb-2 text-sm">First Name</label>
-              <input pInputText formControlName="firstName"
-                     class="w-full p-inputtext-lg border-round-lg" />
+          <div class="surface-50 border-1 surface-border border-round-xl p-4 flex flex-column gap-3">
+            <div class="grid formgrid">
+              <div class="field col-12 md:col-6 mb-0">
+                <label class="block mb-2 text-sm font-medium text-color">First Name</label>
+                <input pInputText formControlName="firstName" class="w-full border-round-lg" placeholder="e.g. John" />
+              </div>
+              <div class="field col-12 md:col-6 mb-0">
+                <label class="block mb-2 text-sm font-medium text-color">Surname</label>
+                <input pInputText formControlName="surname" class="w-full border-round-lg" placeholder="e.g. Smith" />
+              </div>
             </div>
-
-            <div class="col-12 md:col-6 mb-3">
-              <label class="block mb-2 text-sm">Surname</label>
-              <input pInputText formControlName="surname"
-                     class="w-full p-inputtext-lg border-round-lg" />
+            <div>
+              <label class="block mb-2 text-sm font-medium text-color">Date of Birth</label>
+              <p-datepicker formControlName="dateOfBirth" styleClass="w-full"></p-datepicker>
             </div>
-
-            <div class="col-12">
-              <label class="block mb-2 text-sm">Date of Birth</label>
-              <p-datepicker formControlName="dateOfBirth" class="w-full"></p-datepicker>
-            </div>
-
           </div>
         </div>
 
-        <div class="surface-100 p-4 border-round-xl">
-
-          <div class="text-sm font-semibold text-muted-color mb-3">
-            Contact Details
+        <div class="flex flex-column gap-3">
+          <div class="flex align-items-center gap-2">
+            <div class="flex align-items-center justify-content-center border-round-lg"
+                 style="width:28px;height:28px;background:var(--primary-50)">
+              <i class="pi pi-phone text-sm" style="color:var(--primary-500)"></i>
+            </div>
+            <span class="text-sm font-semibold text-color-secondary uppercase"
+                  style="letter-spacing: 0.06em">Contact Details</span>
           </div>
 
-          <div class="grid formgrid">
-
-            <div class="col-12 md:col-6 mb-3">
-              <label class="block mb-2 text-sm">Phone Number</label>
-              <input pInputText formControlName="phoneNumber"
-                     class="w-full border-round-lg" />
+          <div class="surface-50 border-1 surface-border border-round-xl p-4 flex flex-column gap-3">
+            <div class="grid formgrid">
+              <div class="field col-12 md:col-6 mb-0">
+                <label class="block mb-2 text-sm font-medium text-color">Phone Number</label>
+                <input pInputText formControlName="phoneNumber" class="w-full border-round-lg" placeholder="+1 234 567 8900" />
+              </div>
+              <div class="field col-12 md:col-6 mb-0">
+                <label class="block mb-2 text-sm font-medium text-color">IBAN</label>
+                <input pInputText formControlName="iban" class="w-full border-round-lg" placeholder="e.g. GB29 NWBK 6016 1331 9268 19" />
+              </div>
             </div>
-
-            <div class="col-12 md:col-6 mb-3">
-              <label class="block mb-2 text-sm">IBAN</label>
-              <input pInputText formControlName="iban"
-                     class="w-full border-round-lg" />
+            <div>
+              <label class="block mb-2 text-sm font-medium text-color">Address</label>
+              <input pInputText formControlName="address" class="w-full border-round-lg" placeholder="Street, City, Country" />
             </div>
-
-            <div class="col-12">
-              <label class="block mb-2 text-sm">Address</label>
-              <input pInputText formControlName="address"
-                     class="w-full border-round-lg" />
-            </div>
-
           </div>
         </div>
 
-        <div class="flex gap-3 pt-2">
+        <div class="p-4 border-top-1 surface-border flex justify-content-center gap-3 bg-surface-0">
 
-          <button
-            pButton
-            type="button"
-            label="Cancel"
-            icon="pi pi-times"
-            class="p-button-secondary flex-1 border-round-lg"
-            (click)="router.navigate(['/contacts'])">
-          </button>
+            <button
+                type="button"
+                class="p-button p-component p-button-text p-button-sm"
+                (click)="router.navigate(['/list'])">
+                <span class="pi pi-times mr-2"></span>
+                Cancel
+            </button>
 
-          <button
-            pButton
-            type="submit"
-            label="Save Changes"
-            icon="pi pi-check"
-            class="p-button-success flex-1 border-round-lg"
-            [disabled]="form.invalid">
-          </button>
+            <button
+                type="button"
+                class="p-button p-component p-button-text p-button-sm p-button-success"
+                [disabled]="form.invalid"
+                (click)="submit()">
+                <span class="pi pi-check mr-2"></span>
+                Save
+            </button>
 
         </div>
 

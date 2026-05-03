@@ -30,7 +30,7 @@ export const createContactSuccess = createAction(
 
 export const createContactFailure = createAction(
   '[Contact] Create Failure',
-  props<{ error: any }>()
+  props<{ error: string }>()
 );
 
 

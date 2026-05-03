@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { createContact } from '../../store/contact.actions';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { selectCreateError, selectCreateSuccess, selectLoading } from '../../store/contact.selectors';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-contact-create',
@@ -18,7 +19,8 @@ import { selectCreateError, selectCreateSuccess, selectLoading } from '../../sto
     InputTextModule,
     ButtonModule,
     CardModule,
-    DatePickerModule
+    DatePickerModule,
+    MessageModule
   ],
   templateUrl: './contact-create.html',
   styleUrl: './contact-create.css',

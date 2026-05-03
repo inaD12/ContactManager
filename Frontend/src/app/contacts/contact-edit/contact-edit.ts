@@ -111,8 +111,4 @@ export class ContactEdit implements OnInit {
 
     this.router.navigate(['/contacts', id]);
   }
-
-  private toDateOnlyString(date: Date): string {
-    return date.toISOString().split('T')[0];
-  }
 }

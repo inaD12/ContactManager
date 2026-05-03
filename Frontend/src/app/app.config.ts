@@ -22,7 +22,13 @@ export const appConfig: ApplicationConfig = {
     provideEffects([ContactEffects]),
     providePrimeNG({
       theme: {
-        preset: Aura
+        preset: Aura,
+        options: {
+          cssLayer: {
+            name: 'primeng',
+            order: 'reset, primeng, theme'
+          }
+        }
       }
     })
   ]

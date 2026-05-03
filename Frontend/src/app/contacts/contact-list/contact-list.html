@@ -1,5 +1,5 @@
 <div class="min-h-screen surface-ground flex flex-column align-items-center">
-<div class="w-full" style="max-width: 1200px; margin: 0 auto;">
+<div class="w-full">
   <div class="px-6 py-4 surface-card border-bottom-1 surface-border shadow-1 flex align-items-center justify-content-between">
   
     <div class="text-center flex-1">
@@ -16,7 +16,7 @@
         type="button"
         label="Create Contact"
         icon="pi pi-plus"
-        class="p-button-sm p-button-rounded p-button-success create-btn"
+        class="p-button-sm p-button-rounded create-btn"
         routerLink="/create"
     ></button>
 
@@ -79,7 +79,7 @@
 
         <ng-template pTemplate="body" let-contact>
           <tr
-            class="transition-all transition-duration-200 cursor-pointer hover:surface-hover hover:shadow-2"
+            class="cursor-pointer transition-colors transition-duration-200 hover:bg-black-alpha-10"
             (click)="openContact(contact)"
           >
 
