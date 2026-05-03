@@ -1,17 +1,21 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { TableModule } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { SkeletonModule } from 'primeng/skeleton';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 
 import { Subject, debounceTime } from 'rxjs';
 
-import { Contact } from '../../models/contact.model';
-import { ContactService } from '../../services/contact.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { GetAllContactsRequest } from '../../models/get-all-contacts-request.model';
 import { mapSortField, SortOrder } from '../../models/contact.enums';
 import { Router, RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import * as ContactActions from '../../store/contact.actions';
+import * as ContactSelectors from '../../store/contact.selectors';
+import { inject } from '@angular/core';
+import { Contact } from '../../models/contact.model';
 
 @Component({
   selector: 'app-contact-list',
@@ -28,9 +32,15 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class ContactList implements OnInit {
 
-  contacts = signal<Contact[]>([]);
-  loading = signal(false);
-  totalRecords = signal(0);
+  private store = inject(Store);
+  private router = inject(Router);
+
+  contacts = toSignal(
+    this.store.select(ContactSelectors.selectAllContacts),
+    { initialValue: [] as Contact[] }
+  );
+  loading = toSignal(this.store.select(ContactSelectors.selectLoading), { initialValue: false });
+  totalRecords = toSignal(this.store.select(ContactSelectors.selectTotalRecords), { initialValue: 0 });
 
   filters: GetAllContactsRequest = {
     page: 1,
@@ -52,18 +62,20 @@ export class ContactList implements OnInit {
 
   private filterSubject = new Subject<void>();
 
-  constructor(private service: ContactService, private router: Router) {}
-
   ngOnInit() {
-
     this.filterSubject
       .pipe(debounceTime(300))
       .subscribe(() => {
         this.filters.page = 1;
-        this.loadData(this.filters);
+
+        this.store.dispatch(
+          ContactActions.loadContacts({ request: this.filters })
+        );
       });
 
-    this.loadData(this.filters);
+    this.store.dispatch(
+      ContactActions.loadContacts({ request: this.filters })
+    );
   }
 
   onFilter(
@@ -78,16 +90,20 @@ export class ContactList implements OnInit {
     this.filterSubject.next();
   }
 
-  loadContactsLazy(event: any) {
+  loadContactsLazy(event: TableLazyLoadEvent) {
 
     this.filters = {
       ...this.filters,
-      page: (event.first / event.rows) + 1,
-      pageSize: event.rows
+      page: ((event.first ?? 0) / (event.rows ?? 10)) + 1,
+      pageSize: event.rows ?? 10
     };
 
     if (event.sortField) {
-      const mapped = mapSortField(event.sortField);
+      const sortField = Array.isArray(event.sortField)
+        ? event.sortField[0]
+        : event.sortField;
+
+      const mapped = mapSortField(sortField);
 
       if (mapped !== null) {
         this.filters.sortBy = mapped;
@@ -96,40 +112,21 @@ export class ContactList implements OnInit {
       }
     }
 
-    this.loadData(this.filters);
+    this.store.dispatch(
+      ContactActions.loadContacts({ request: this.filters })
+    );
   }
 
-  openContact(contact: any) {
+  openContact(contact: { id: string }) {
     this.router.navigate(['/contacts', contact.id]);
   }
   
-  editContact(contact: any) {
+  editContact(contact: { id: string }) {
     this.router.navigate(['/contacts', contact.id, 'edit']);
   }
 
-  deleteContact(contact: any): void {
+  deleteContact(contact: { id: string }): void {
     console.log('Delete contact:', contact);
 
-  }
-
-  private loadData(request: GetAllContactsRequest) {
-    this.loading.set(true);
-
-    this.service.getAll(request).subscribe({
-      next: (res) => {
-        this.contacts.set(res.data.items ?? []);
-        this.totalRecords.set(res.data.totalCount ?? 0);
-        this.loading.set(false);
-      },
-      error: (err) => {
-        if (err.status === 404) {
-          this.contacts.set([]);
-          this.totalRecords.set(0);
-        } else {
-          console.error(err);
-        }
-        this.loading.set(false);
-      }
-    });
   }
 }

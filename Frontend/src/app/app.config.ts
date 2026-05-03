@@ -4,16 +4,24 @@ import Aura from '@primeuix/themes/aura';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
+import { provideStore } from '@ngrx/store';
+import { contactReducer } from './store/contact.reducer';
+import { provideEffects } from '@ngrx/effects';
+import { ContactEffects } from './store/contact.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-     providePrimeNG({
-            theme: {
-                preset: Aura
-            }
-        })
+    provideStore({
+      contacts: contactReducer
+    }),
+    provideEffects([ContactEffects]),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    })
   ]
 };
