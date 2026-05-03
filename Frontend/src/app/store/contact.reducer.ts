@@ -20,5 +20,33 @@ export const contactReducer = createReducer(
   on(ContactActions.loadContactsFailure, state => ({
     ...state,
     loading: false
+  })),
+
+  on(ContactActions.createContact, state => ({
+    ...state,
+    loading: true,
+    createSuccess: false,
+    createError: null
+  })),
+
+  on(ContactActions.createContactSuccess, (state, { id, request }) => ({
+    ...state,
+    contacts: [
+        {
+        id,
+        ...request
+        },
+        ...state.contacts
+    ],
+    createSuccess: true,
+    loading: false
+  })),
+
+  on(ContactActions.createContactFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    createSuccess: false,
+    createError: error
   }))
+
 );

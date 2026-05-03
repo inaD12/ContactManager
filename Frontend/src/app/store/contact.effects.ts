@@ -27,5 +27,24 @@ export class ContactEffects {
         )
         )
     )
-    );
+  );
+
+  createContact$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContactActions.createContact),
+      switchMap(({ request }) =>
+        this.contactService.create(request).pipe(
+          map(response =>
+            ContactActions.createContactSuccess({
+                id: response.data.id,
+                request
+            })
+          ),
+          catchError(error =>
+            of(ContactActions.createContactFailure({ error }))
+          )
+        )
+      )
+    )
+  );
 }

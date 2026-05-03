@@ -18,3 +18,13 @@ export const selectTotalRecords = createSelector(
   selectContactsState,
   state => state.totalRecords
 );
+
+export const selectCreateSuccess = createSelector(
+  selectContactsState,
+  state => state.createSuccess
+);
+
+export const selectCreateError = createSelector(
+  selectContactsState,
+  state => state.createError
+);

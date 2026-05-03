@@ -2,6 +2,18 @@
 
   <p-card header="Create Contact" class="w-full max-w-md">
 
+   @if (success()) {
+    <div class="mb-3 p-3 border-round bg-green-100 text-green-800">
+      Contact created successfully!
+    </div>
+   } 
+
+   @if (error()) {
+    <div class="mb-3 p-3 border-round bg-red-100 text-red-800">
+      {{ error() }}
+    </div>
+   }
+
     <form [formGroup]="form" (ngSubmit)="submit()" class="p-fluid space-y-4">
 
       <div class="field">
@@ -40,6 +52,7 @@
         label="Create Contact"
         icon="pi pi-check"
         class="w-full"
+        [disabled]="loading()"
       ></button>
 
     </form>

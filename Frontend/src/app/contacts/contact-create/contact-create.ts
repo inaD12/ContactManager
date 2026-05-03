@@ -4,9 +4,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { CardModule } from 'primeng/card';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateContactRequest } from '../../models/create-contract-request.model';
+import { Store } from '@ngrx/store';
+import { createContact } from '../../store/contact.actions';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { selectCreateError, selectCreateSuccess, selectLoading } from '../../store/contact.selectors';
 
 @Component({
   selector: 'app-contact-create',
@@ -25,10 +29,12 @@ export class ContactCreate implements OnInit {
 
   form!: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private service: ContactService
-  ) {}
+  private store = inject(Store);
+  private fb = inject(FormBuilder);
+
+  success = toSignal(this.store.select(selectCreateSuccess));
+  error = toSignal(this.store.select(selectCreateError));
+  loading = toSignal(this.store.select(selectLoading));
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -55,14 +61,13 @@ export class ContactCreate implements OnInit {
       iban: raw.iban
     };
 
-    this.service.create(payload).subscribe({
-      next: () => {
-        console.log('Contact created');
-        this.form.reset();
-      },
-      error: err => console.error(err)
-    });
+    this.store.dispatch(
+      createContact({ request: payload })
+    );
+
+    this.form.reset();
   }
+
   private toDateOnlyString(date: Date): string {
       return date.toISOString().split('T')[0];
     }
