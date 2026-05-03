@@ -1,8 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { SkeletonModule } from 'primeng/skeleton';
 import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 import { Subject, debounceTime } from 'rxjs';
 
@@ -10,6 +11,7 @@ import { Contact } from '../../models/contact.model';
 import { ContactService } from '../../services/contact.service';
 import { GetAllContactsRequest } from '../../models/get-all-contacts-request.model';
 import { mapSortField, SortOrder } from '../../models/contact.enums';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-contact-list',
@@ -19,7 +21,8 @@ import { mapSortField, SortOrder } from '../../models/contact.enums';
     TableModule,
     SkeletonModule,
     InputTextModule,
-    DatePipe
+    ButtonModule,
+    RouterLink
   ],
   templateUrl: './contact-list.html',
 })
@@ -40,9 +43,16 @@ export class ContactList implements OnInit {
     maxDateOfBirth: ''
   };
 
+  showPagination = computed(() => {
+    const total = this.totalRecords();
+    const size = this.filters.pageSize ?? 0;
+
+    return size > 0 && total > size;
+  });
+
   private filterSubject = new Subject<void>();
 
-  constructor(private service: ContactService) {}
+  constructor(private service: ContactService, private router: Router) {}
 
   ngOnInit() {
 
@@ -58,18 +68,6 @@ export class ContactList implements OnInit {
 
   onFilter(
     field: 'firstName' | 'surname' | 'phoneNumber' | 'address',
-    value: string
-  ) {
-    this.filters = {
-      ...this.filters,
-      [field]: value
-    };
-
-    this.filterSubject.next();
-  }
-
-  onDateFilter(
-    field: 'minDateOfBirth' | 'maxDateOfBirth',
     value: string
   ) {
     this.filters = {
@@ -99,6 +97,19 @@ export class ContactList implements OnInit {
     }
 
     this.loadData(this.filters);
+  }
+
+  openContact(contact: any) {
+    this.router.navigate(['/contacts', contact.id]);
+  }
+  
+  editContact(contact: any) {
+    this.router.navigate(['/contacts', contact.id, 'edit']);
+  }
+
+  deleteContact(contact: any): void {
+    console.log('Delete contact:', contact);
+
   }
 
   private loadData(request: GetAllContactsRequest) {

@@ -25,7 +25,7 @@ public static class QueryMapper
             request.Surname,
             request.MinDateOfBirth,
             request.MaxDateOfBirth,
-            request.Adress,
+            request.Address,
             request.PhoneNumber,
             request.SortOrder,
             request.Page,

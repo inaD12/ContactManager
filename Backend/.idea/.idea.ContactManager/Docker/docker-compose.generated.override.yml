@@ -15,7 +15,7 @@ services:
     - "--mode=server"
     - "--frontend-port=57000"
     - "--backend-port=57200"
-    - "--roslyn-worker-port=57401"
+    - "--roslyn-worker-port=57408"
     - "--timeout=60"
     environment:
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
@@ -23,14 +23,14 @@ services:
       RESHARPER_LOG_CONF: "/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     image: "contactsapi:dev"
     ports:
-    - "127.0.0.1:57001:57000"
-    - "127.0.0.1:57201:57200"
-    - "127.0.0.1:57401:57401"
+    - "127.0.0.1:57008:57000"
+    - "127.0.0.1:57208:57200"
+    - "127.0.0.1:57408:57408"
     volumes:
     - "/home/inad/Desktop/Projects/ContactManager/Backend/ContactManager.API:/app:rw"
     - "/home/inad/Desktop/Projects/ContactManager/Backend:/src:rw"
     - "/home/inad/.nuget/packages:/root/.nuget/packages"
     - "/home/inad/.local/share/JetBrains/RiderRemoteDebugger/2025.1.4/Linux64:/opt/JetBrains/RiderDebuggerTools"
     - "/home/inad/.local/share/JetBrains/Toolbox/apps/rider/bin/backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
-    - "/home/inad/.cache/JetBrains/Rider2025.1/log/DebuggerWorker/JetBrains.Debugger.Worker.2026_5_02_12_34_20:/var/opt/JetBrains/RiderDebuggerTools:rw"
+    - "/home/inad/.cache/JetBrains/Rider2025.1/log/DebuggerWorker/JetBrains.Debugger.Worker.2026_5_03_09_44_16:/var/opt/JetBrains/RiderDebuggerTools:rw"
     working_dir: "/app"
