@@ -68,3 +68,19 @@ export const updateContactFailure = createAction(
   '[Contact] Update Contact Failure',
   props<{ error: string }>()
 );
+
+
+export const deleteContact = createAction(
+  '[Contact] Delete Contact',
+  props<{ id: string }>()
+);
+
+export const deleteContactSuccess = createAction(
+  '[Contact] Delete Contact Success',
+  props<{ id: string }>()
+);
+
+export const deleteContactFailure = createAction(
+  '[Contact] Delete Contact Failure',
+  props<{ error: string }>()
+);

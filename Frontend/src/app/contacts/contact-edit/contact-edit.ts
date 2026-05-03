@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup,ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
@@ -9,6 +9,7 @@ import * as ContactSelectors from '../../store/contact.selectors';
 import * as ContactActions from '../../store/contact.actions';
 import { CardModule } from 'primeng/card';
 import { SkeletonModule } from 'primeng/skeleton';
+import { DatePickerModule } from 'primeng/datepicker';
 
 @Component({
   selector: 'app-contact-edit',
@@ -16,7 +17,8 @@ import { SkeletonModule } from 'primeng/skeleton';
   imports: [
     ReactiveFormsModule,
     CardModule,
-    SkeletonModule
+    SkeletonModule,
+    DatePickerModule
   ],
   templateUrl: './contact-edit.html',
   styleUrl: './contact-edit.css',
@@ -30,7 +32,14 @@ export class ContactEdit implements OnInit {
   router = inject(Router);
   loading = toSignal(this.store.select(ContactSelectors.selectLoading));
 
-  form!: FormGroup;
+  form: FormGroup = this.fb.group({
+    firstName: [''],
+    surname: [''],
+    dateOfBirth: [''],
+    address: [''],
+    phoneNumber: [''],
+    iban: ['']
+  });
 
   contact = toSignal(
     this.store.select(ContactSelectors.selectSelectedContact),
@@ -67,13 +76,13 @@ export class ContactEdit implements OnInit {
   }
 
   private buildForm(c: any) {
-    this.form = this.fb.group({
-      firstName: [c.firstName, Validators.required],
-      surname: [c.surname, Validators.required],
-      dateOfBirth: [new Date(c.dateOfBirth), Validators.required],
-      address: [c.address, Validators.required],
-      phoneNumber: [c.phoneNumber, Validators.required],
-      iban: [c.iban, Validators.required]
+    this.form.patchValue({
+      firstName: c.firstName,
+      surname: c.surname,
+      dateOfBirth: new Date(c.dateOfBirth),
+      address: c.address,
+      phoneNumber: c.phoneNumber,
+      iban: c.iban
     });
   }
 

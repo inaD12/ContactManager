@@ -1,5 +1,3 @@
-import { ContactService } from '../../services/contact.service';
-
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';

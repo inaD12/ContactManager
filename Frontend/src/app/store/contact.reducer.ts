@@ -108,5 +108,28 @@ export const contactReducer = createReducer(
   on(ContactActions.updateContactFailure, state => ({
       ...state,
       loading: false
+  })),
+
+  on(ContactActions.deleteContactSuccess, (state, { id }) => ({
+    ...state,
+
+    contacts: state.contacts.filter(c => c.id !== id),
+
+    selectedContact:
+        state.selectedContact?.id === id
+        ? null
+        : state.selectedContact,
+
+    loading: false
+  })),
+
+  on(ContactActions.deleteContact, state => ({
+    ...state,
+    loading: true
+  })),
+
+  on(ContactActions.deleteContactFailure, state => ({
+    ...state,
+    loading: false
   }))
 );

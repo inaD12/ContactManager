@@ -8,6 +8,7 @@ import { provideStore } from '@ngrx/store';
 import { contactReducer } from './store/contact.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { ContactEffects } from './store/contact.effects';
+import { ConfirmationService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       contacts: contactReducer
     }),
+    ConfirmationService,
     provideEffects([ContactEffects]),
     providePrimeNG({
       theme: {

@@ -16,6 +16,7 @@ import * as ContactActions from '../../store/contact.actions';
 import * as ContactSelectors from '../../store/contact.selectors';
 import { inject } from '@angular/core';
 import { Contact } from '../../models/contact.model';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-contact-list',
@@ -34,6 +35,7 @@ export class ContactList implements OnInit {
 
   private store = inject(Store);
   private router = inject(Router);
+  private confirm = inject(ConfirmationService);
 
   contacts = toSignal(
     this.store.select(ContactSelectors.selectAllContacts),
@@ -125,8 +127,16 @@ export class ContactList implements OnInit {
     this.router.navigate(['/contacts', contact.id, 'edit']);
   }
 
-  deleteContact(contact: { id: string }): void {
-    console.log('Delete contact:', contact);
-
+  deleteContact(contact: any) {
+    this.confirm.confirm({
+      message: 'Are you sure you want to delete this contact?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.store.dispatch(
+          ContactActions.deleteContact({ id: contact.id })
+        );
+      }
+    });
   }
 }

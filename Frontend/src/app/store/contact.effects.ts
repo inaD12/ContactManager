@@ -81,4 +81,20 @@ export class ContactEffects {
       )
     )
   );
+
+  deleteContact$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContactActions.deleteContact),
+      switchMap(({ id }) =>
+        this.contactService.delete(id).pipe(
+          map(() =>
+            ContactActions.deleteContactSuccess({ id })
+          ),
+          catchError(error =>
+            of(ContactActions.deleteContactFailure({ error }))
+          )
+        )
+      )
+    )
+  );
 }
