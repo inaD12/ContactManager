@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup,ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup,ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
@@ -28,18 +28,22 @@ export class ContactEdit implements OnInit {
   private store = inject(Store);
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
-
   router = inject(Router);
+
   loading = toSignal(this.store.select(ContactSelectors.selectLoading));
 
-  form: FormGroup = this.fb.group({
-    firstName: [''],
-    surname: [''],
-    dateOfBirth: [''],
-    address: [''],
-    phoneNumber: [''],
-    iban: ['']
+   form: FormGroup = this.fb.group({
+    firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    surname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    dateOfBirth: ['', [Validators.required, this.pastDateValidator()]],
+    address: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(250)]],
+    phoneNumber: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(15), Validators.pattern(/^\+?[0-9]{7,15}$/)]],
+    iban: ['', [Validators.required, Validators.minLength(15), Validators.maxLength(34), Validators.pattern(/^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$/)]],
   });
+
+   f(name: string) {
+    return this.form.get(name);
+  }
 
   contact = toSignal(
     this.store.select(ContactSelectors.selectSelectedContact),
@@ -110,5 +114,12 @@ export class ContactEdit implements OnInit {
     );
 
     this.router.navigate(['/contacts', id]);
+  }
+  private pastDateValidator(): ValidatorFn {
+    return (control) => {
+      if (!control.value) return null;
+      const date = control.value instanceof Date ? control.value : new Date(control.value);
+      return date < new Date() ? null : { pastDate: true };
+    };
   }
 }

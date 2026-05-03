@@ -35,31 +35,87 @@
           <div class="field col-12 md:col-6">
             <label class="block mb-2 text-sm font-medium">First Name</label>
             <input pInputText formControlName="firstName" class="w-full" placeholder="John" />
+            @if (f('firstName')?.invalid && f('firstName')?.touched) {
+              @if (f('firstName')?.errors?.['required']) {
+                <small class="text-red-500 mt-1 block">First name is required.</small>
+              } @else if (f('firstName')?.errors?.['minlength']) {
+                <small class="text-red-500 mt-1 block">Must be at least 2 characters.</small>
+              } @else if (f('firstName')?.errors?.['maxlength']) {
+                <small class="text-red-500 mt-1 block">Must be at most 50 characters.</small>
+              }
+            }
           </div>
           <div class="field col-12 md:col-6">
             <label class="block mb-2 text-sm font-medium">Surname</label>
             <input pInputText formControlName="surname" class="w-full" placeholder="Doe" />
+            @if (f('surname')?.invalid && f('surname')?.touched) {
+              @if (f('surname')?.errors?.['required']) {
+                <small class="text-red-500 mt-1 block">Surname is required.</small>
+              } @else if (f('surname')?.errors?.['minlength']) {
+                <small class="text-red-500 mt-1 block">Must be at least 2 characters.</small>
+              } @else if (f('surname')?.errors?.['maxlength']) {
+                <small class="text-red-500 mt-1 block">Must be at most 50 characters.</small>
+              }
+            }
           </div>
         </div>
 
         <div class="field">
           <label class="block mb-2 text-sm font-medium">Date of Birth</label>
           <p-datepicker formControlName="dateOfBirth" class="w-full" />
+          @if (f('dateOfBirth')?.invalid && f('dateOfBirth')?.touched) {
+            @if (f('dateOfBirth')?.errors?.['required']) {
+              <small class="text-red-500 mt-1 block">Date of birth is required.</small>
+            } @else if (f('dateOfBirth')?.errors?.['pastDate']) {
+              <small class="text-red-500 mt-1 block">Date of birth must be in the past.</small>
+            }
+          }
         </div>
 
         <div class="field">
           <label class="block mb-2 text-sm font-medium">Address</label>
           <input pInputText formControlName="address" class="w-full" placeholder="Street, City, Country" />
+          @if (f('address')?.invalid && f('address')?.touched) {
+            @if (f('address')?.errors?.['required']) {
+              <small class="text-red-500 mt-1 block">Address is required.</small>
+            } @else if (f('address')?.errors?.['minlength']) {
+              <small class="text-red-500 mt-1 block">Must be at least 5 characters.</small>
+            } @else if (f('address')?.errors?.['maxlength']) {
+              <small class="text-red-500 mt-1 block">Must be at most 250 characters.</small>
+            }
+          }
         </div>
 
         <div class="grid formgrid">
           <div class="field col-12 md:col-6">
             <label class="block mb-2 text-sm font-medium">Phone Number</label>
             <input pInputText formControlName="phoneNumber" class="w-full" placeholder="+1 234 567 8900" />
+            @if (f('phoneNumber')?.invalid && f('phoneNumber')?.touched) {
+              @if (f('phoneNumber')?.errors?.['required']) {
+                <small class="text-red-500 mt-1 block">Phone number is required.</small>
+              } @else if (f('phoneNumber')?.errors?.['minlength']) {
+                <small class="text-red-500 mt-1 block">Must be at least 7 characters.</small>
+              } @else if (f('phoneNumber')?.errors?.['maxlength']) {
+                <small class="text-red-500 mt-1 block">Must be at most 15 characters.</small>
+              } @else if (f('phoneNumber')?.errors?.['pattern']) {
+                <small class="text-red-500 mt-1 block">Phone number format is invalid.</small>
+              }
+            }
           </div>
           <div class="field col-12 md:col-6">
             <label class="block mb-2 text-sm font-medium">IBAN</label>
             <input pInputText formControlName="iban" class="w-full font-mono" placeholder="GB29 NWBK …" />
+            @if (f('iban')?.invalid && f('iban')?.touched) {
+              @if (f('iban')?.errors?.['required']) {
+                <small class="text-red-500 mt-1 block">IBAN is required.</small>
+              } @else if (f('iban')?.errors?.['minlength']) {
+                <small class="text-red-500 mt-1 block">Must be at least 15 characters.</small>
+              } @else if (f('iban')?.errors?.['maxlength']) {
+                <small class="text-red-500 mt-1 block">Must be at most 34 characters.</small>
+              } @else if (f('iban')?.errors?.['pattern']) {
+                <small class="text-red-500 mt-1 block">IBAN format is invalid.</small>
+              }
+            }
           </div>
         </div>
 
