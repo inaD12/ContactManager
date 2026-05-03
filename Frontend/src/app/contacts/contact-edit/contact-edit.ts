@@ -60,8 +60,15 @@ export class ContactEdit implements OnInit {
           this.buildForm(existing);
         } else {
           this.store.dispatch(ContactActions.loadContactById({ id }));
-        }
 
+          this.store.select(ContactSelectors.selectSelectedContact)
+            .pipe()
+            .subscribe(contact => {
+              if (contact) {
+                this.buildForm(contact);
+              }
+          });
+        }
       });
 
     const contactSignal = this.contact;
