@@ -1,13 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
-import * as ContactSelectors from '../../store/contact.selectors';
-import * as ContactActions from '../../store/contact.actions';
-import { take } from 'rxjs';
 import { CardModule } from 'primeng/card';
 import { DatePipe } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
+import { ContactsFacade } from '../../utils/contacts.facade';
 
 @Component({
   selector: 'app-contact-view',
@@ -19,34 +15,16 @@ import { SkeletonModule } from 'primeng/skeleton';
   templateUrl: './contact-view.html',
   styleUrl: './contact-view.css',
 })
-export class ContactView {
+export class ContactView implements OnInit {
 
-  private store = inject(Store);
   private route = inject(ActivatedRoute);
+  private facade = inject(ContactsFacade);
 
-  loading = toSignal(this.store.select(ContactSelectors.selectLoading));
-  contact = toSignal(
-    this.store.select(ContactSelectors.selectSelectedContact),
-    { initialValue: null }
-  );
+  loading = this.facade.loading;
+  contact = this.facade.contact;
 
-  constructor() {
+  ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
-
-    this.store.select(ContactSelectors.selectContactByIdFromList(id))
-      .pipe(take(1))
-      .subscribe(existing => {
-
-        if (existing) {
-          this.store.dispatch(
-            ContactActions.setSelectedContact({ contact: existing })
-          );
-        } else {
-          this.store.dispatch(
-            ContactActions.loadContactById({ id })
-          );
-        }
-
-      });
+    this.facade.loadContactIfMissing(id);
   }
 }

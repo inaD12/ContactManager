@@ -1,5 +1,5 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule} from '@angular/common';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { SkeletonModule } from 'primeng/skeleton';
 import { InputTextModule } from 'primeng/inputtext';
@@ -7,16 +7,12 @@ import { ButtonModule } from 'primeng/button';
 
 import { Subject, debounceTime } from 'rxjs';
 
-import { toSignal } from '@angular/core/rxjs-interop';
 import { GetAllContactsRequest } from '../../models/get-all-contacts-request.model';
 import { mapSortField, SortOrder } from '../../models/contact.enums';
 import { Router, RouterLink } from '@angular/router';
-import { Store } from '@ngrx/store';
-import * as ContactActions from '../../store/contact.actions';
-import * as ContactSelectors from '../../store/contact.selectors';
 import { inject } from '@angular/core';
-import { Contact } from '../../models/contact.model';
 import { ConfirmationService } from 'primeng/api';
+import { ContactsFacade } from '../../utils/contacts.facade';
 
 @Component({
   selector: 'app-contact-list',
@@ -33,16 +29,13 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class ContactList implements OnInit {
 
-  private store = inject(Store);
+  private facade = inject(ContactsFacade);
   private router = inject(Router);
   private confirm = inject(ConfirmationService);
 
-  contacts = toSignal(
-    this.store.select(ContactSelectors.selectAllContacts),
-    { initialValue: [] as Contact[] }
-  );
-  loading = toSignal(this.store.select(ContactSelectors.selectLoading), { initialValue: false });
-  totalRecords = toSignal(this.store.select(ContactSelectors.selectTotalRecords), { initialValue: 0 });
+  contacts = this.facade.contacts;
+  loading = this.facade.loading;
+  totalRecords = this.facade.totalRecords;
 
   filters: GetAllContactsRequest = {
     page: 1,
@@ -69,21 +62,13 @@ export class ContactList implements OnInit {
       .pipe(debounceTime(300))
       .subscribe(() => {
         this.filters.page = 1;
-
-        this.store.dispatch(
-          ContactActions.loadContacts({ request: this.filters })
-        );
+        this.facade.loadContacts(this.filters);
       });
 
-    this.store.dispatch(
-      ContactActions.loadContacts({ request: this.filters })
-    );
+    this.facade.loadContacts(this.filters);
   }
 
-  onFilter(
-    field: 'firstName' | 'surname' | 'phoneNumber' | 'address',
-    value: string
-  ) {
+  onFilter(field: 'firstName' | 'surname', value: string) {
     this.filters = {
       ...this.filters,
       [field]: value
@@ -114,15 +99,13 @@ export class ContactList implements OnInit {
       }
     }
 
-    this.store.dispatch(
-      ContactActions.loadContacts({ request: this.filters })
-    );
+    this.facade.loadContacts(this.filters);
   }
 
   openContact(contact: { id: string }) {
     this.router.navigate(['/contacts', contact.id]);
   }
-  
+
   editContact(contact: { id: string }) {
     this.router.navigate(['/contacts', contact.id, 'edit']);
   }
@@ -133,9 +116,7 @@ export class ContactList implements OnInit {
       header: 'Confirm Delete',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.store.dispatch(
-          ContactActions.deleteContact({ id: contact.id })
-        );
+        this.facade.deleteContact(contact.id);
       }
     });
   }

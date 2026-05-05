@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { createEffect, ofType, Actions } from "@ngrx/effects";
-import { switchMap, map, catchError, of } from "rxjs";
+import { switchMap, map, catchError, of, withLatestFrom, filter, take } from "rxjs";
 import { ContactService } from "../services/contact.service";
 import * as ContactActions from './contact.actions';
 
@@ -21,13 +21,22 @@ export class ContactEffects {
                 totalRecords: res.data.totalCount ?? 0
             })
             ),
-            catchError(error =>
-            of(ContactActions.loadContactsFailure({ error }))
-            )
+            catchError(error => {
+              const message =
+                error?.error?.message ??
+                error?.message ??
+                'An unknown error occurred';
+
+              return of(
+                ContactActions.loadContactsFailure({
+                  error: message
+                })
+              );
+            })
+          )
         )
-        )
-    )
-  );
+      )
+    );
 
   createContact$ = createEffect(() =>
     this.actions$.pipe(
@@ -40,9 +49,18 @@ export class ContactEffects {
                 request
             })
           ),
-          catchError(error =>
-            of(ContactActions.createContactFailure({ error }))
-          )
+          catchError(error => {
+            const message =
+              error?.error?.message ??
+              error?.message ??
+              'An unknown error occurred';
+
+            return of(
+              ContactActions.createContactFailure({
+                error: message
+              })
+            );
+          })
         )
       )
     )
@@ -51,16 +69,23 @@ export class ContactEffects {
   loadContactById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ContactActions.loadContactById),
-      switchMap(({ id }) =>
-        this.contactService.getById(id).pipe(
+      switchMap(action =>
+        this.contactService.getById(action.id).pipe(
           map(res =>
-            ContactActions.loadContactByIdSuccess({
-              contact: res.data
-            })
+            ContactActions.loadContactByIdSuccess({ contact: res.data })
           ),
-          catchError(error =>
-            of(ContactActions.loadContactByIdFailure({ error }))
-          )
+          catchError(error => {
+              const message =
+                error?.error?.message ??
+                error?.message ??
+                'An unknown error occurred';
+
+              return of(
+                ContactActions.loadContactByIdFailure({
+                  error: message
+                })
+              );
+          })
         )
       )
     )
@@ -74,9 +99,18 @@ export class ContactEffects {
           map(() =>
             ContactActions.updateContactSuccess({ id, request })
           ),
-          catchError(error =>
-            of(ContactActions.updateContactFailure({ error }))
-          )
+          catchError(error => {
+              const message =
+                error?.error?.message ??
+                error?.message ??
+                'An unknown error occurred';
+
+              return of(
+                ContactActions.updateContactFailure({
+                  error: message
+                })
+              );
+          })
         )
       )
     )
@@ -90,9 +124,18 @@ export class ContactEffects {
           map(() =>
             ContactActions.deleteContactSuccess({ id })
           ),
-          catchError(error =>
-            of(ContactActions.deleteContactFailure({ error }))
-          )
+          catchError(error => {
+              const message =
+                error?.error?.message ??
+                error?.message ??
+                'An unknown error occurred';
+
+              return of(
+                ContactActions.deleteContactFailure({
+                  error: message
+                })
+              );
+          })
         )
       )
     )

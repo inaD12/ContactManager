@@ -31,7 +31,7 @@ export const selectCreateError = createSelector(
 
 export const selectSelectedContact = createSelector(
   selectContactsState,
-  state => state.selectedContact
+  state => state.selectedContact ?? null
 );
 
 export const selectContactByIdFromList = (id: string) =>

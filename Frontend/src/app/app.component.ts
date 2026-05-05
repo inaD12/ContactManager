@@ -13,5 +13,5 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('Frontend');
+  protected readonly title = signal('Contacts');
 }

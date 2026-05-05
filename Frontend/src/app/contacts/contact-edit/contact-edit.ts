@@ -1,15 +1,13 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup,ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { Component, effect, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup,ReactiveFormsModule, ValidatorFn} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { take } from 'rxjs';
 
-import * as ContactSelectors from '../../store/contact.selectors';
-import * as ContactActions from '../../store/contact.actions';
 import { CardModule } from 'primeng/card';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DatePickerModule } from 'primeng/datepicker';
+import { Contact } from '../../models/contact.model';
+import { createContactForm } from '../../utils/contact-form.factory';
+import { ContactsFacade } from '../../utils/contacts.facade';
 
 @Component({
   selector: 'app-contact-edit',
@@ -25,68 +23,34 @@ import { DatePickerModule } from 'primeng/datepicker';
 })
 export class ContactEdit implements OnInit {
 
-  private store = inject(Store);
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
+  private facade = inject(ContactsFacade);
   router = inject(Router);
 
-  loading = toSignal(this.store.select(ContactSelectors.selectLoading));
+  loading = this.facade.loading;
+  contact = this.facade.contact;
 
-   form: FormGroup = this.fb.group({
-    firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-    surname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-    dateOfBirth: ['', [Validators.required, this.pastDateValidator()]],
-    address: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(250)]],
-    phoneNumber: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(15), Validators.pattern(/^\+?[0-9]{7,15}$/)]],
-    iban: ['', [Validators.required, Validators.minLength(15), Validators.maxLength(34), Validators.pattern(/^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$/)]],
-  });
+  private contactId = this.route.snapshot.paramMap.get('id')!;
 
-   f(name: string) {
+  form: FormGroup = createContactForm(this.fb);
+
+  constructor() {
+    effect(() => {
+      const c = this.contact();
+      if (c) this.buildForm(c);
+    });
+  }
+
+  ngOnInit() {
+    this.facade.loadContactIfMissing(this.contactId);
+  }
+
+  f(name: string) {
     return this.form.get(name);
   }
 
-  contact = toSignal(
-    this.store.select(ContactSelectors.selectSelectedContact),
-    { initialValue: null }
-  );
-
-  ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id')!;
-
-    this.store.select(ContactSelectors.selectContactByIdFromList(id))
-      .pipe(take(1))
-      .subscribe(existing => {
-
-        if (existing) {
-          this.store.dispatch(
-            ContactActions.setSelectedContact({ contact: existing })
-          );
-          this.buildForm(existing);
-        } else {
-          this.store.dispatch(ContactActions.loadContactById({ id }));
-
-          this.store.select(ContactSelectors.selectSelectedContact)
-            .pipe()
-            .subscribe(contact => {
-              if (contact) {
-                this.buildForm(contact);
-              }
-          });
-        }
-      });
-
-    const contactSignal = this.contact;
-
-    const interval = setInterval(() => {
-      const c = contactSignal();
-      if (c && !this.form) {
-        this.buildForm(c);
-        clearInterval(interval);
-      }
-    }, 50);
-  }
-
-  private buildForm(c: any) {
+  private buildForm(c: Contact) {
     this.form.patchValue({
       firstName: c.firstName,
       surname: c.surname,
@@ -100,26 +64,12 @@ export class ContactEdit implements OnInit {
   submit() {
     if (this.form.invalid) return;
 
-    const id = this.route.snapshot.paramMap.get('id')!;
+    this.facade.updateContact(this.contactId, {
+      newAddress: this.form.value.address,
+      newPhoneNumber: this.form.value.phoneNumber,
+      newIBAN: this.form.value.iban
+    });
 
-    this.store.dispatch(
-      ContactActions.updateContact({
-        id,
-        request: {
-          newAddress: this.form.value.address,
-          newPhoneNumber: this.form.value.phoneNumber,
-          newIBAN: this.form.value.iban
-        }
-      })
-    );
-
-    this.router.navigate(['/contacts', id]);
-  }
-  private pastDateValidator(): ValidatorFn {
-    return (control) => {
-      if (!control.value) return null;
-      const date = control.value instanceof Date ? control.value : new Date(control.value);
-      return date < new Date() ? null : { pastDate: true };
-    };
+    this.router.navigate(['/contacts', this.contactId]);
   }
 }

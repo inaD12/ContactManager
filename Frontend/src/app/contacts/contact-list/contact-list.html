@@ -24,8 +24,7 @@
 
   <div class="flex-1 p-6">
 
-    <div class="surface-card border surface-border border-round-2xl shadow-2 flex flex-column overflow-hidden"
-     style="height: calc(10 * 48px + 120px);">
+    <div class="surface-card border surface-border border-round-2xl shadow-2 flex flex-column overflow-hidden h-175">
 
       <p-table
         #dt
@@ -91,7 +90,7 @@
               {{ contact.surname }}
             </td>
 
-            <td class="p-3 text-center" (click)="$event.stopPropagation()">
+            <td class="p-3 text-center whitespace-nowrap" (click)="$event.stopPropagation()">
               <button
                 pButton
                 type="button"
