@@ -52,6 +52,18 @@ public class Contact : BaseEntity
         return Result<Contact>.Success(contact, ResponseList.ContactCreated);
     }
     
+    public Result ChangeFirstName(FirstName newFirstName)
+    {
+        FirstName = newFirstName;
+        return Result.Success(ResponseList.ContactUpdated);
+    }
+    
+    public Result ChangeSurname(Surname newSurname)
+    {
+        Surname = newSurname;
+        return Result.Success(ResponseList.ContactUpdated);
+    }
+    
     public Result ChangeAddress(Address newAddress)
     {
         Address = newAddress;

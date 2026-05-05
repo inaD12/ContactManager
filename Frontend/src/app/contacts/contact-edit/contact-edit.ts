@@ -65,6 +65,8 @@ export class ContactEdit implements OnInit {
     if (this.form.invalid) return;
 
     this.facade.updateContact(this.contactId, {
+      newFirstName: this.form.value.firstName,
+      NewSurname: this.form.value.surname,
       newAddress: this.form.value.address,
       newPhoneNumber: this.form.value.phoneNumber,
       newIBAN: this.form.value.iban

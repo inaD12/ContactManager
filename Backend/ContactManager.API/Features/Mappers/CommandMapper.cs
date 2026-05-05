@@ -21,6 +21,8 @@ public static class CommandMapper
         string contactId)
         => new(
             contactId,
+            request.NewFirstName,
+            request.NewSurname,
             request.NewAddress,
             request.NewPhoneNumber,
             request.NewIBAN);

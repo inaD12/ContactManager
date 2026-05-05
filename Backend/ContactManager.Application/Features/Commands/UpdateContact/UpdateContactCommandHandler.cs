@@ -19,6 +19,28 @@ public sealed class UpdateContactCommandHandler(
         if (contact is null)
             return Result.Failure(ResponseList.ContactNotFound);
 
+        if (request.NewFirstName is not null)
+        {
+            var firstName = FirstName.Create(request.NewFirstName);
+            if (firstName.IsFailure)
+                return Result.Failure(firstName.Response);
+
+            var changResult = contact.ChangeFirstName(firstName.Value!);
+            if (changResult.IsFailure)
+                return Result.Failure(changResult.Response);
+        }
+        
+        if (request.NewSurname is not null)
+        {
+            var surname = Surname.Create(request.NewSurname);
+            if (surname.IsFailure)
+                return Result.Failure(surname.Response);
+
+            var changResult = contact.ChangeSurname(surname.Value!);
+            if (changResult.IsFailure)
+                return Result.Failure(changResult.Response);
+        }
+        
         if (request.NewAddress is not null)
         {
             var address = Address.Create(request.NewAddress);
