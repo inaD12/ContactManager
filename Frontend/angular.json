@@ -25,9 +25,17 @@
               }
             ],
             "styles": [
-              "src/styles.css",
-              "node_modules/primeicons/primeicons.css"
-            ]
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeflex/primeflex.css",
+              "src/styles.css"
+            ],
+            "loader": {
+              ".eot": "file",
+              ".woff": "file",
+              ".woff2": "file",
+              ".ttf": "file",
+              ".svg": "file"
+            }
           },
           "configurations": {
             "production": {
@@ -43,7 +51,15 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              }
             },
             "development": {
               "optimization": false,

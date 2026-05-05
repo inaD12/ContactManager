@@ -2,17 +2,11 @@
 
 WORKDIR /app
 
-COPY Frontend/package*.json ./
-RUN npm install
+COPY package.json package-lock.json* yarn.lock* ./
+RUN npm install --legacy-peer-deps
 
-COPY Frontend/ .
-RUN npm run build --prod
+COPY . .
 
+EXPOSE 4200
 
-FROM nginx:alpine
-
-COPY --from=build /app/dist /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]

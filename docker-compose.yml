@@ -17,10 +17,10 @@ services:
   contacts.frontend:
     container_name: contacts.frontend
     build:
-      context: .
-      dockerfile: Frontend/Dockerfile
+      context: ./Frontend
+      dockerfile: Dockerfile
     ports:
-      - "4200:80"
+      - "4200:4200"
     depends_on:
       - contacts.api
     networks:
