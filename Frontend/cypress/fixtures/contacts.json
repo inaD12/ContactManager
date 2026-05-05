@@ -1,0 +1,30 @@
+{
+  "message": "Operation successful",
+  "data": {
+    "items": [
+      {
+        "id": "1",
+        "firstName": "John",
+        "surname": "Doe",
+        "dateOfBirth": "2026-03-15",
+        "address": "Test Street 1",
+        "phoneNumber": "123456789",
+        "iban": "DE89370400440532013000"
+      },
+      {
+        "id": "2",
+        "firstName": "Jane",
+        "surname": "Smith",
+        "dateOfBirth": "2026-04-04",
+        "address": "Test Street 2",
+        "phoneNumber": "987654321",
+        "iban": "NL91ABNA0417164300"
+      }
+    ],
+    "page": 1,
+    "pageSize": 10,
+    "totalCount": 2,
+    "hasNextPage": false,
+    "hasPreviousPage": false
+  }
+}

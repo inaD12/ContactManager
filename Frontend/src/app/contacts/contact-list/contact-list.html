@@ -78,6 +78,7 @@
 
         <ng-template pTemplate="body" let-contact>
           <tr
+            data-cy="contact-row"
             class="cursor-pointer transition-colors transition-duration-200 hover:bg-black-alpha-10"
             (click)="openContact(contact)"
           >
