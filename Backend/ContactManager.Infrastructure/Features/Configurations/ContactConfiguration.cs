@@ -29,7 +29,7 @@ internal sealed class ContactConfiguration : IEntityTypeConfiguration<Contact>
             surname.Property(x => x.Value)
                 .HasColumnName("surname")
                 .IsRequired()
-                .HasMaxLength(ContactBusinessConfiguration.LAST_NAME_MAX_LENGTH);
+                .HasMaxLength(ContactBusinessConfiguration.SURNAME_MAX_LENGTH);
         });
 
         builder.OwnsOne(x => x.DateOfBirth, dob =>

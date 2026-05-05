@@ -7,7 +7,7 @@ public static class ContactBusinessConfiguration
     public const int FIRST_NAME_MAX_LENGTH = 50;
 
     public const int LAST_NAME_MIN_LENGTH = 2;
-    public const int LAST_NAME_MAX_LENGTH = 50;
+    public const int SURNAME_MAX_LENGTH = 50;
 
     public const int ADDRESS_MIN_LENGTH = 5;
     public const int ADDRESS_MAX_LENGTH = 250;

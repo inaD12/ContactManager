@@ -1,0 +1,139 @@
+<div class="min-h-screen surface-ground flex flex-column align-items-center">
+<div class="w-full">
+  <div class="px-6 py-4 surface-card border-bottom-1 surface-border shadow-1 flex align-items-center justify-content-between">
+  
+    <div class="text-center flex-1">
+        <h1 class="text-3xl font-semibold text-color">
+        Contacts
+        </h1>
+        <p class="text-sm text-color-secondary mt-1">
+        Search, filter and manage your contact list
+        </p>
+    </div>
+
+    <button
+        pButton
+        type="button"
+        label="Create Contact"
+        icon="pi pi-plus"
+        class="p-button-sm p-button-rounded create-btn"
+        routerLink="/create"
+    ></button>
+
+  </div>
+
+  <div class="flex-1 p-6">
+
+    <div class="surface-card border surface-border border-round-2xl shadow-2 flex flex-column overflow-hidden h-175">
+
+      <p-table
+        #dt
+        [value]="contacts()"
+        [lazy]="true"
+        (onLazyLoad)="loadContactsLazy($event)"
+        [paginator]="showPagination()"
+        [rows]="filters.pageSize"
+        [totalRecords]="totalRecords()"
+        [loading]="loading()"
+        sortMode="single"
+        class="w-full flex-1"
+        [tableStyle]="{ 'table-layout': 'fixed' }"
+      >
+
+        <ng-template pTemplate="header">
+          <tr class="text-sm">
+
+            <th style="width: 25%;" pSortableColumn="firstName" class="p-3 text-center">
+                First Name <p-sortIcon field="firstName"></p-sortIcon>
+            </th>
+
+            <th style="width: 25%;" pSortableColumn="surname" class="p-3 text-center">
+                Surname <p-sortIcon field="surname"></p-sortIcon>
+            </th>
+
+            <th style="width: 10%;" class="p-3 text-center">
+                Actions
+            </th>
+
+          </tr>
+
+          <tr>
+
+            <th class="p-2">
+              <input pInputText class="w-full"
+                placeholder="First name"
+                (input)="onFilter('firstName', $any($event.target).value)" />
+            </th>
+
+            <th class="p-2">
+              <input pInputText class="w-full"
+                placeholder="Surname"
+                (input)="onFilter('surname', $any($event.target).value)" />
+            </th>
+
+            <th></th>
+
+          </tr>
+        </ng-template>      
+
+        <ng-template pTemplate="body" let-contact>
+          <tr
+            data-cy="contact-row"
+            class="cursor-pointer transition-colors transition-duration-200 hover:bg-black-alpha-10"
+            (click)="openContact(contact)"
+          >
+
+            <td class="p-3 font-medium">
+              {{ contact.firstName }}
+            </td>
+
+            <td class="p-3 text-color-secondary">
+              {{ contact.surname }}
+            </td>
+
+            <td class="p-3 text-center whitespace-nowrap" (click)="$event.stopPropagation()">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                class="p-button-text p-button-sm mr-2"
+                (click)="editContact(contact)"
+              ></button>
+
+              <button
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-text p-button-sm p-button-danger"
+                (click)="deleteContact(contact)"
+              ></button>
+            </td>
+
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="4" class="p-6 text-center text-color-secondary">
+              No contacts found
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="loadingbody">
+          @for (row of [1,2,3,4,5,6,7,8,9,10]; track row) {
+            <tr class="animate-pulse">
+
+              <td class="p-3"><p-skeleton width="100%"></p-skeleton></td>
+              <td class="p-3"><p-skeleton width="100%"></p-skeleton></td>
+              <td class="p-3"><p-skeleton width="100%"></p-skeleton></td>
+
+            </tr>
+          }
+        </ng-template>
+
+      </p-table>
+    </div>
+  </div>
+</div>
+</div>

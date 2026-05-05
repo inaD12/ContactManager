@@ -1,4 +1,5 @@
-﻿using ContactManager.Domain.Abstractions;
+﻿using ContactManager.Application.Features.Abstractions;
+using ContactManager.Domain.Abstractions;
 using ContactManager.Domain.Options;
 using ContactManager.Infrastructure.Features.DBContexts;
 using ContactManager.Infrastructure.Features.Helpers;

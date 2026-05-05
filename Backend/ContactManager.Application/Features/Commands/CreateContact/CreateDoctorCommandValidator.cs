@@ -15,7 +15,7 @@ public class CreateContactCommandValidator : AbstractValidator<CreateContactComm
 		RuleFor(x => x.Surname)
 			.NotEmpty()
 			.MinimumLength(ContactBusinessConfiguration.LAST_NAME_MIN_LENGTH)
-			.MaximumLength(ContactBusinessConfiguration.LAST_NAME_MAX_LENGTH);
+			.MaximumLength(ContactBusinessConfiguration.SURNAME_MAX_LENGTH);
 
 		RuleFor(x => x.DateOfBirth)
 			.Must(dob => dob < DateOnly.FromDateTime(DateTime.UtcNow))
