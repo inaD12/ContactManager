@@ -1,4 +1,4 @@
-using ContactManager.Domain.Abstractions.Messaging;
+using ContactManager.Application.Features.Abstractions.Messaging;
 
 namespace ContactManager.Features.Models.Requests;
 

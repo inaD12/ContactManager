@@ -13,6 +13,7 @@ import { Router, RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { ContactsFacade } from '../../utils/contacts.facade';
+import { Contact } from '../../models/contact.model';
 
 @Component({
   selector: 'app-contact-list',
@@ -110,7 +111,7 @@ export class ContactList implements OnInit {
     this.router.navigate(['/contacts', contact.id, 'edit']);
   }
 
-  deleteContact(contact: any) {
+  deleteContact(contact: Contact) {
     this.confirm.confirm({
       message: 'Are you sure you want to delete this contact?',
       header: 'Confirm Delete',

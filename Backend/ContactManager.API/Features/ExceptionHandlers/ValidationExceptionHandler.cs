@@ -1,4 +1,4 @@
-using ContactManager.Domain.Exceptions;
+using ContactManager.Application.Features.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;

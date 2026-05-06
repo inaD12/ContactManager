@@ -1,4 +1,5 @@
-﻿using ContactManager.Domain.Abstractions;
+﻿using ContactManager.Application.Features.Abstractions;
+using ContactManager.Application.Features.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace ContactManager.Infrastructure.Features.UnitOfWork;
@@ -14,7 +15,7 @@ internal class UnitOfWork<TContext>(TContext dbContext) : IUnitOfWork
 		}
 		catch (DbUpdateConcurrencyException ex)
 		{
-			throw new Domain.Exceptions.ConcurrencyException("Concurrency exception occurred.", ex);
+			throw new ConcurrencyException("Concurrency exception occurred.", ex);
 		}
 	}
 }

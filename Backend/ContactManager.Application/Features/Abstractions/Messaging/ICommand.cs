@@ -1,7 +1,7 @@
 ﻿using ContactManager.Domain.Results;
 using MediatR;
 
-namespace ContactManager.Domain.Abstractions.Messaging;
+namespace ContactManager.Application.Features.Abstractions.Messaging;
 
 public interface ICommand : IRequest<Result>
 {

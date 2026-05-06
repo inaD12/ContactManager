@@ -1,4 +1,4 @@
-using ContactManager.Domain.Abstractions;
+using ContactManager.Infrastructure.Features.Helpers;
 using Serilog;
 
 namespace ContactManager.Extensions;

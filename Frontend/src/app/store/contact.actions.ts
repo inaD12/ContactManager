@@ -15,7 +15,7 @@ export const loadContactsSuccess = createAction(
 
 export const loadContactsFailure = createAction(
   '[Contacts] Load Contacts Failure',
-  props<{ error: any }>()
+  props<{ error: string }>()
 );
 
 export const createContact = createAction(

@@ -1,4 +1,4 @@
-﻿namespace ContactManager.Domain.Exceptions;
+﻿namespace ContactManager.Application.Features.Exceptions;
 
 public sealed class ConcurrencyException : Exception
 {

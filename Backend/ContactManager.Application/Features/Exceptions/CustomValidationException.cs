@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace ContactManager.Domain.Exceptions;
+namespace ContactManager.Application.Features.Exceptions;
 
 public class CustomValidationException : Exception
 {

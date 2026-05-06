@@ -1,5 +1,5 @@
+using ContactManager.Application.Features.Abstractions.Messaging;
 using ContactManager.Application.Features.Models;
-using ContactManager.Domain.Abstractions.Messaging;
 
 namespace ContactManager.Application.Features.Commands.CreateContact;
 

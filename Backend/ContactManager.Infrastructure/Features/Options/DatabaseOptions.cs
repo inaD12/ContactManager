@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ContactManager.Domain.Options;
+namespace ContactManager.Infrastructure.Features.Options;
 
 public sealed class DatabaseOptions
 {

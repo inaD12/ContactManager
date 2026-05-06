@@ -1,5 +1,5 @@
 
-using ContactManager.Domain.Abstractions.Messaging;
+using ContactManager.Application.Features.Abstractions.Messaging;
 
 namespace ContactManager.Application.Features.Commands.RemoveContact;
 

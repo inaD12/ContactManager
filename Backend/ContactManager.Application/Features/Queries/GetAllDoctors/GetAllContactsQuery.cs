@@ -1,6 +1,6 @@
-﻿using ContactManager.Application.Features.Models;
+﻿using ContactManager.Application.Features.Abstractions.Messaging;
+using ContactManager.Application.Features.Models;
 using ContactManager.Application.Features.Sorting;
-using ContactManager.Domain.Abstractions.Messaging;
 using ContactManager.Domain.Enums;
 
 namespace ContactManager.Application.Features.Queries.GetAllDoctors;

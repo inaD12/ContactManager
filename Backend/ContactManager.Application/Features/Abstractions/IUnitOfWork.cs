@@ -1,4 +1,4 @@
-﻿namespace ContactManager.Domain.Abstractions;
+﻿namespace ContactManager.Application.Features.Abstractions;
 
 public interface IUnitOfWork
 {

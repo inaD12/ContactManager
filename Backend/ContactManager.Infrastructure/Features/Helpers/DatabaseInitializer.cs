@@ -1,5 +1,4 @@
-﻿using ContactManager.Domain.Abstractions;
-using ContactManager.Infrastructure.Features.DBContexts;
+﻿using ContactManager.Infrastructure.Features.DBContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

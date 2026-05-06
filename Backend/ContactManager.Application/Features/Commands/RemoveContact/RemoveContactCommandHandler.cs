@@ -1,6 +1,5 @@
 using ContactManager.Application.Features.Abstractions;
-using ContactManager.Domain.Abstractions;
-using ContactManager.Domain.Abstractions.Messaging;
+using ContactManager.Application.Features.Abstractions.Messaging;
 using ContactManager.Domain.Results;
 using ContactManager.Domain.Utilities;
 

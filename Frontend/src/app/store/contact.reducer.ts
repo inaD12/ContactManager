@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialState } from './contact.state';
 import * as ContactActions from './contact.actions';
+import { Contact } from '../models/contact.model';
 
 export const contactReducer = createReducer(
   initialState,
@@ -72,33 +73,32 @@ export const contactReducer = createReducer(
     selectedContact: contact
   })),
 
-  on(ContactActions.updateContactSuccess, (state, { id, request }) => ({
+  on(ContactActions.updateContactSuccess, (state, { id, request }) => {
 
-    ...state,
+    const updateContact = (c: Contact) => ({
+      ...c,
+      firstName: request.newFirstName ?? c.firstName,
+      surname: request.newSurname ?? c.surname,
+      address: request.newAddress ?? c.address,
+      phoneNumber: request.newPhoneNumber ?? c.phoneNumber,
+      iban: request.newIBAN ?? c.iban
+    });
 
-    contacts: state.contacts.map(c =>
-        c.id === id
-        ? {
-            ...c,
-            address: request.newAddress ?? c.address,
-            phoneNumber: request.newPhoneNumber ?? c.phoneNumber,
-            iban: request.newIBAN ?? c.iban
-            }
-        : c
-    ),
+    return {
+      ...state,
 
-    selectedContact:
+      contacts: state.contacts.map(c =>
+        c.id === id ? updateContact(c) : c
+      ),
+
+      selectedContact:
         state.selectedContact?.id === id
-        ? {
-            ...state.selectedContact,
-            address: request.newAddress ?? state.selectedContact.address,
-            phoneNumber: request.newPhoneNumber ?? state.selectedContact.phoneNumber,
-            iban: request.newIBAN ?? state.selectedContact.iban
-            }
-        : state.selectedContact,
+          ? updateContact(state.selectedContact)
+          : state.selectedContact,
 
-    loading: false
-  })),
+      loading: false
+    };
+  }),
 
   on(ContactActions.updateContact, state => ({
       ...state,

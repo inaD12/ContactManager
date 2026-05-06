@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace ContactManager.Domain.Abstractions;
+namespace ContactManager.Infrastructure.Features.Helpers;
 
 public interface IDatabaseInitializer
 {

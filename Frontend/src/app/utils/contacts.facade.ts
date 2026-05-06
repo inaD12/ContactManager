@@ -5,6 +5,8 @@ import * as ContactActions from '../store/contact.actions';
 import { take } from "rxjs";
 import { CreateContactRequest } from "../models/create-contract-request.model";
 import { GetAllContactsRequest } from "../models/get-all-contacts-request.model";
+import { UpdateContactRequest } from "../models/update-contact-request.model";
+import { Contact } from "../models/contact.model";
 
 @Injectable({ providedIn: 'root' })
 export class ContactsFacade {
@@ -21,7 +23,7 @@ export class ContactsFacade {
     this.store.dispatch(ContactActions.loadContactById({ id }));
   }
 
-  setSelectedContact(contact: any) {
+  setSelectedContact(contact: Contact) {
     this.store.dispatch(ContactActions.setSelectedContact({ contact }));
   }
 
@@ -37,7 +39,7 @@ export class ContactsFacade {
       });
   }
 
-  updateContact(id: string, request: any) {
+  updateContact(id: string, request: UpdateContactRequest) {
     this.store.dispatch(ContactActions.updateContact({ id, request }));
   }
 
